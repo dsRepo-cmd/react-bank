@@ -1,0 +1,16 @@
+.status__container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.status__time {
+  background-image: url('./svg/time.svg');
+  width: 54px;
+  height: 21px;
+}
+
+.status__icons {
+  background-image: url('./svg/icons.svg');
+  width: 79px;
+  height: 13px;
+}

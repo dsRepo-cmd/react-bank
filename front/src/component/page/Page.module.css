@@ -1,0 +1,29 @@
+.page {
+  position: relative;
+
+  overflow: hidden;
+  width: 395px;
+  min-height: 850px;
+  margin: 42px auto;
+  border-radius: 24px;
+
+  border: 1px solid gray;
+
+  background-color: #fff;
+}
+
+/* mobile test app */
+
+/* .page {
+  position: relative;
+  overflow: hidden;
+
+  width: 395px;
+  min-height: 100vh;
+  margin: auto;
+  border-radius: 24px;
+
+
+
+  background-color: #fff;
+} */

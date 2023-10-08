@@ -2,13 +2,12 @@
 const express = require('express')
 const router = express.Router()
 
-// Підключіть файли роутів
-// const test = require('./test')
-// Підключіть інші файли роутів, якщо є
+const auth = require('./auth')
+const session = require('./session')
 
-// Об'єднайте файли роутів за потреби
-// router.use('/', test)
-// Використовуйте інші файли роутів, якщо є
+router.use('/', auth)
+router.use('/', session)
+// ================================================================
 
 router.get('/', (req, res) => {
   res.status(200).json('Hello World')

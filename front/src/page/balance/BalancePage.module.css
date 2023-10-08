@@ -1,0 +1,102 @@
+.back {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  align-items: stretch;
+
+  background-image: url('./svg/background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 200px;
+  padding: 20px;
+  margin-bottom: 48px;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  justify-items: center;
+  align-items: center;
+}
+
+.title {
+  color: #f3f5ff;
+}
+
+.settings {
+  background-image: url('./svg/settings.svg');
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.notifications {
+  background-image: url('./svg/bell.svg');
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.balance {
+  color: #f3f5ff;
+  font-size: 30px;
+  align-self: center;
+}
+
+.buttons {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+
+  align-self: center;
+
+  bottom: -42px;
+}
+
+.recive {
+  position: relative;
+  background-image: url('./svg/arrow-down-left.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #5b94e9;
+
+  width: 28px;
+  height: 28px;
+  padding: 20px;
+  margin-right: 5px;
+
+  border: 10px solid #fff;
+  border-radius: 50%;
+
+  cursor: pointer;
+}
+.buttons__text {
+  color: #1d1d1f;
+  font-size: 14px;
+}
+
+.send {
+  background-image: url('./svg/send.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-color: #5b94e9;
+
+  width: 28px;
+  height: 28px;
+
+  padding: 20px;
+  margin-left: 5px;
+
+  border: 10px solid #fff;
+  border-radius: 50%;
+
+  cursor: pointer;
+}
+/* ================================================================ */

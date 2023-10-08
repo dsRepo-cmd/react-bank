@@ -1,0 +1,33 @@
+.amount {
+  font-size: 38px;
+  font-weight: 600;
+  align-self: center;
+  margin-bottom: 32px;
+}
+
+.amount__positive {
+  color: #24b277;
+}
+
+.amount__negative {
+  color: #1d1d1f;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 12px;
+}
+.list__item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #1d1d1f;
+}
+
+.list__divider {
+  border-bottom: 1px solid #e9e8eb;
+}

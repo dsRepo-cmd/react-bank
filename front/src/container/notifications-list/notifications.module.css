@@ -1,0 +1,36 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 12px;
+  gap: 12px;
+}
+
+.item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #939199;
+}
+.item__message {
+  font-size: 16px;
+  color: #1d1d1f;
+  font-weight: 500;
+}
+.item__text {
+  font-size: 12px;
+  color: #939199;
+}
+.item__dote {
+  display: inline-block;
+  background-image: url('./svg/dote.svg');
+  background-repeat: no-repeat;
+  width: 5px;
+  height: 5px;
+}

@@ -1,0 +1,35 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.list__item {
+  display: grid;
+  grid-template-columns: 50px 1fr 162px;
+  padding: 12px;
+  background-color: #fff;
+  align-items: center;
+  border-radius: 12px;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.7s;
+}
+
+.list__item:hover {
+  opacity: 0.7;
+}
+
+.list__item:active {
+  opacity: 0.4;
+}
+.list__item__img {
+  padding: 12px;
+}
+.list__item__name {
+  padding: 12px;
+}
+
+.list__item__method {
+  padding: 12px;
+}

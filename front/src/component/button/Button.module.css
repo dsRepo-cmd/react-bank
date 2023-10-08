@@ -1,0 +1,35 @@
+.button {
+  border-radius: 12px;
+
+  transition: opacity 0.6s;
+  cursor: pointer !important;
+}
+
+.button:hover {
+  opacity: 0.7;
+}
+.button:active {
+  opacity: 0.4;
+}
+
+.button__outline {
+  border: 1px solid #775ce5;
+  font-size: 16px;
+
+  padding: 16px;
+
+  color: #775ce5;
+}
+
+.button__fill {
+  background-color: #775ce5;
+
+  color: #fff;
+  font-size: 16px;
+  padding: 20px;
+}
+
+.button__danger {
+  border: 1px solid #f23152;
+  color: #f23152;
+}

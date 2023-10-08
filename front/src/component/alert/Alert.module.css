@@ -1,0 +1,25 @@
+.alert {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 10px;
+  background: rgba(242, 136, 61, 0.1);
+}
+
+.success {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 10px;
+  background: rgba(0, 211, 70, 0.253);
+}
+
+.text {
+  font-size: 14px;
+  color: #f2883d;
+}
+
+.text__success {
+  font-size: 14px;
+  color: #01bb2f;
+}
