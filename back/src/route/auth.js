@@ -223,7 +223,7 @@ router.post('/recovery-confirm', function (req, res) {
     user.password = password
 
     console.log(user)
-    
+
     const session = Session.create(user)
 
     return res.status(200).json({
