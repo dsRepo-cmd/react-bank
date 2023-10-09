@@ -1,11 +1,12 @@
-import React, { useReducer } from 'react'
-import Page from '../../component/page/Page'
-import BackLink from '../../component/back-link-menu/BackLinkMenu'
-import Header from '../../component/header/Header'
-import Input from '../../component/input/Input'
-import { Button } from '../../component/button/Button'
-import Prefix from '../../component/prefix/Prefix'
-import Alert from '../../component/alert/Alert'
+import React, { useContext, useReducer } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Page from '../component/page/Page'
+import BackLink from '../component/back-link-menu/BackLinkMenu'
+import Header from '../component/header/Header'
+import Input from '../component/input/Input'
+import { Button } from '../component/button/Button'
+import Prefix from '../component/prefix/Prefix'
+import Alert from '../component/alert/Alert'
 import {
   FIELD_ERR,
   FIELD_NAME,
@@ -15,24 +16,22 @@ import {
   REG_EXP_PASSWORD,
   ResData,
   SERVER_IP,
-} from '../../util/consts'
-import Grid from '../../component/grid/Grid'
-import { useNavigate } from 'react-router-dom'
-import StatusBar from '../../component/status-bar/StatusBar'
-import { AuthContext } from '../../App'
+} from '../util/consts'
+import Grid from '../component/grid/Grid'
+import StatusBar from '../component/status-bar/StatusBar'
+import { AuthContext } from '../App'
 import {
   REQUEST_ACTION_TYPE,
   initialState,
   reducer,
-} from '../../util/reduser'
+} from '../util/reduser'
 
 const { EMAIL, PASSWORD } = FIELD_NAME
 
-// ========================================================
+// =============================================================
 
-const SigninPage: React.FC = () => {
-  const auth = React.useContext(AuthContext)
-
+const SignupPage: React.FC = () => {
+  const auth = useContext(AuthContext)
   const navigate = useNavigate()
 
   const [state, dispatch] = useReducer(
@@ -44,6 +43,7 @@ const SigninPage: React.FC = () => {
 
   const checkError = () => {
     const { email, password } = state.formValues
+
     const errors = {
       [EMAIL]: '',
       [PASSWORD]: '',
@@ -71,12 +71,12 @@ const SigninPage: React.FC = () => {
     return Object.values(errors).every((error) => !error)
   }
 
-  // Submit==================================================
+  // Check input/submit ===============================================
 
   const hundleSubmit = () => {
     const check = checkError()
 
-    if (check) signin()
+    if (check) signup()
   }
 
   const handleChange = (name: string, value: string) => {
@@ -91,11 +91,10 @@ const SigninPage: React.FC = () => {
 
   // Send Data=============================================
 
-  const signin = async () => {
+  const signup = async () => {
     try {
       const res = await fetch(
-        `http://${SERVER_IP}/signin`,
-
+        `http://${SERVER_IP}/signup`,
         {
           method: 'POST',
           headers: {
@@ -117,7 +116,8 @@ const SigninPage: React.FC = () => {
             },
           })
         }
-        navigate('/balance')
+
+        navigate('/signup-confirm')
       }
 
       dispatch({
@@ -146,12 +146,10 @@ const SigninPage: React.FC = () => {
       <Grid>
         <StatusBar />
         <BackLink />
-
         <Header
-          title="Sign in"
-          text="Select login method"
+          title="Sign up"
+          text="Choose a registration method"
         />
-
         <Input
           error={state.formErrors[EMAIL]}
           name={EMAIL}
@@ -159,29 +157,26 @@ const SigninPage: React.FC = () => {
           label={LABLE_NAME.EMAIL}
           onChange={(value) => handleChange(EMAIL, value)}
         />
-
         <Input
           error={state.formErrors[PASSWORD]}
-          onChange={(value) =>
-            handleChange(PASSWORD, value)
-          }
           name={PASSWORD}
           placeholder={PLACEHOLDER_NAME.PASSWORD}
           label={LABLE_NAME.PASSWORD}
           password
+          onChange={(value) =>
+            handleChange(PASSWORD, value)
+          }
         />
-
         <Prefix
-          text="Forgot your password?"
-          link="/recovery"
-          linkText="Restore"
+          text="Already have an account?"
+          link="/signin"
+          linkText="Sign In"
         />
-
         <Button onClick={hundleSubmit}>Continue</Button>
-
         <Alert text={state.alert} />
       </Grid>
     </Page>
   )
 }
-export default SigninPage
+
+export default SignupPage

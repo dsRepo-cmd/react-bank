@@ -1,62 +1,54 @@
 import React, { useReducer } from 'react'
-import Page from '../../component/page/Page'
-import BackLink from '../../component/back-link-menu/BackLinkMenu'
-import Header from '../../component/header/Header'
-import Input from '../../component/input/Input'
-import { Button } from '../../component/button/Button'
-import Alert from '../../component/alert/Alert'
-import Grid from '../../component/grid/Grid'
+import Page from '../component/page/Page'
+import BackLink from '../component/back-link-menu/BackLinkMenu'
+import Header from '../component/header/Header'
+import Input from '../component/input/Input'
+import { Button } from '../component/button/Button'
+import Alert from '../component/alert/Alert'
+import Grid from '../component/grid/Grid'
 import {
   FIELD_ERR,
   FIELD_NAME,
   LABLE_NAME,
   PLACEHOLDER_NAME,
-  REG_EXP_PASSWORD,
   ResData,
   SERVER_IP,
-} from '../../util/consts'
+} from '../util/consts'
 import { useNavigate } from 'react-router-dom'
-import StatusBar from '../../component/status-bar/StatusBar'
-import { AuthContext } from '../../App'
+import StatusBar from '../component/status-bar/StatusBar'
+import { AuthContext } from '../App'
 import {
   REQUEST_ACTION_TYPE,
   initialState,
   reducer,
-} from '../../util/reduser'
+} from '../util/reduser'
 
-const { CODE, PASSWORD, NEW_PASSWORD } = FIELD_NAME
+const { CODE } = FIELD_NAME
 
-// ===========================================================
+// ==============================================================
 
-const RecoveryConfirmPage: React.FC = () => {
+const SignupConfirmPage: React.FC = () => {
   const auth = React.useContext(AuthContext)
+  const navigate = useNavigate()
 
   const [state, dispatch] = useReducer(
     reducer,
     initialState,
   )
 
-  const navigate = useNavigate()
-
-  // check Error ===============================================
+  // set Error ================================================
 
   const checkError = () => {
-    const { code, password } = state.formValues
+    const { code } = state.formValues
+
     const errors = {
       [CODE]: '',
-      [PASSWORD]: '',
     }
 
     if (code.length < 1) {
       errors[CODE] = FIELD_ERR.IS_EMPTY
     } else if (code.length > 6) {
-      errors[CODE] = FIELD_ERR.IS_BIG
-    }
-
-    if (password.length < 1) {
-      errors[PASSWORD] = FIELD_ERR.IS_EMPTY
-    } else if (!REG_EXP_PASSWORD.test(password)) {
-      errors[PASSWORD] = FIELD_ERR.PASSWORD
+      errors[CODE] = FIELD_ERR.IS_EMPTY
     }
 
     dispatch({
@@ -66,13 +58,12 @@ const RecoveryConfirmPage: React.FC = () => {
 
     return Object.values(errors).every((error) => !error)
   }
-
-  // check Input/Submit  ===============================================
+  // Submit / input================================================
 
   const hundleSubmit = () => {
     const check = checkError()
 
-    if (check) recoveryAcc()
+    if (check) sendCode()
   }
 
   const handleChange = (name: string, value: string) => {
@@ -86,11 +77,10 @@ const RecoveryConfirmPage: React.FC = () => {
   }
 
   // Send Data=============================================
-
-  const recoveryAcc = async () => {
+  const sendCode = async () => {
     try {
       const res = await fetch(
-        `http://${SERVER_IP}/recovery-confirm`,
+        `http://${SERVER_IP}/signup-confirm`,
         {
           method: 'POST',
           headers: {
@@ -112,6 +102,7 @@ const RecoveryConfirmPage: React.FC = () => {
             },
           })
         }
+
         navigate('/balance')
       }
 
@@ -130,11 +121,11 @@ const RecoveryConfirmPage: React.FC = () => {
   const convertData = () => {
     return JSON.stringify({
       [CODE]: Number(state.formValues[CODE]),
-      [PASSWORD]: state.formValues[PASSWORD],
+      token: auth?.state.token,
     })
   }
 
-  // ===========================================================
+  // ==============================================================
 
   return (
     <Page>
@@ -150,23 +141,11 @@ const RecoveryConfirmPage: React.FC = () => {
           error={state.formErrors[CODE]}
           name={CODE}
           placeholder={PLACEHOLDER_NAME.CODE}
-          label="Code"
+          label={LABLE_NAME.CODE}
           onChange={(value) => handleChange(CODE, value)}
         />
-        <Input
-          error={state.formErrors[PASSWORD]}
-          name={NEW_PASSWORD}
-          placeholder={PLACEHOLDER_NAME.NEW_PASSWORD}
-          label={LABLE_NAME.NEW_PASSWORD}
-          onChange={(value) =>
-            handleChange(PASSWORD, value)
-          }
-          password
-        />
 
-        <Button onClick={hundleSubmit}>
-          Restore password
-        </Button>
+        <Button onClick={hundleSubmit}>Confirm</Button>
 
         <Alert text={state.alert} />
       </Grid>
@@ -174,4 +153,4 @@ const RecoveryConfirmPage: React.FC = () => {
   )
 }
 
-export default RecoveryConfirmPage
+export default SignupConfirmPage

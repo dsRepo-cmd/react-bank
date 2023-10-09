@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useContext,
-  useReducer,
-} from 'react'
+import React, { useContext, useReducer } from 'react'
 import Input from '../../component/input/Input'
 import { Button } from '../../component/button/Button'
 import Alert from '../../component/alert/Alert'
@@ -164,7 +160,7 @@ const ChangeEmailForm: React.FC = () => {
         label={LABLE_NAME.OLD_PASSWORD}
         password
       />
-      <Button outline onClick={hundleSubmit}>
+      <Button outline onClick={hundleSubmit} small>
         Save Email
       </Button>
       <Alert success={state.data} text={state.alert} />

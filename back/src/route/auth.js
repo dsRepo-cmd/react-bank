@@ -1,4 +1,3 @@
-// Підключаємо роутер до бек-енду
 const express = require('express')
 const router = express.Router()
 
@@ -163,15 +162,13 @@ router.post('/recovery', function (req, res) {
   try {
     const user = User.getByEmail(email)
 
-    const session = Session.create(user)
-
     if (!user) {
       return res.status(401).json({
         message:
           'Such a user with such e-mail does not exist',
-        session,
       })
     }
+    Session.create(user)
 
     Notifications.createNotification({
       userId: user.id,
@@ -222,8 +219,6 @@ router.post('/recovery-confirm', function (req, res) {
 
     user.password = password
 
-    console.log(user)
-
     const session = Session.create(user)
 
     return res.status(200).json({
@@ -241,7 +236,7 @@ router.post('/recovery-confirm', function (req, res) {
 
 router.post('/settings-email', function (req, res) {
   const { newEmail, email, password } = req.body
-  console.log(newEmail, email, password)
+
   if (!email || !password || !newEmail) {
     return res.status(400).json({
       message: 'Error. There are no required fields',

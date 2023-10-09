@@ -21,7 +21,7 @@ const PaymentSystemList: FC<PaymentSystemListProps> = ({
   }
 
   return (
-    <ul className={cl.list}>
+    <div className={cl.list}>
       <button
         onClick={() =>
           handlePaymentSystem(
@@ -29,10 +29,10 @@ const PaymentSystemList: FC<PaymentSystemListProps> = ({
             'Stripe',
           )
         }
-        className={cl.list__item}
+        className={cl.item}
       >
         <img src={stripe} alt="stripe" />
-        <span>Stripe</span>
+        <p>Stripe</p>
         <img src={stripeMethod} alt="stripeMethod" />
       </button>
       <button
@@ -42,13 +42,13 @@ const PaymentSystemList: FC<PaymentSystemListProps> = ({
             'Coinbase',
           )
         }
-        className={cl.list__item}
+        className={cl.item}
       >
         <img src={coinbase} alt="coinbase" />
-        <span>Coinbase</span>
+        <p>Coinbase</p>
         <img src={coinbaseMethod} alt="coinbaseMethod" />
       </button>
-    </ul>
+    </div>
   )
 }
 

@@ -1,33 +1,38 @@
 import React, { useReducer } from 'react'
-import Page from '../../component/page/Page'
-import BackLink from '../../component/back-link-menu/BackLinkMenu'
-import Header from '../../component/header/Header'
-import Input from '../../component/input/Input'
-import { Button } from '../../component/button/Button'
-import Alert from '../../component/alert/Alert'
+import Page from '../component/page/Page'
+import BackLink from '../component/back-link-menu/BackLinkMenu'
+import Header from '../component/header/Header'
+import Input from '../component/input/Input'
+import { Button } from '../component/button/Button'
+import Prefix from '../component/prefix/Prefix'
+import Alert from '../component/alert/Alert'
 import {
   FIELD_ERR,
   FIELD_NAME,
   LABLE_NAME,
   PLACEHOLDER_NAME,
   REG_EXP_EMAIL,
+  REG_EXP_PASSWORD,
   ResData,
   SERVER_IP,
-} from '../../util/consts'
-import Grid from '../../component/grid/Grid'
+} from '../util/consts'
+import Grid from '../component/grid/Grid'
 import { useNavigate } from 'react-router-dom'
-import StatusBar from '../../component/status-bar/StatusBar'
+import StatusBar from '../component/status-bar/StatusBar'
+import { AuthContext } from '../App'
 import {
   REQUEST_ACTION_TYPE,
   initialState,
   reducer,
-} from '../../util/reduser'
+} from '../util/reduser'
 
-const { EMAIL } = FIELD_NAME
+const { EMAIL, PASSWORD } = FIELD_NAME
 
-// ==============================================================
+// ========================================================
 
-const RecoveryPage: React.FC = () => {
+const SigninPage: React.FC = () => {
+  const auth = React.useContext(AuthContext)
+
   const navigate = useNavigate()
 
   const [state, dispatch] = useReducer(
@@ -35,12 +40,13 @@ const RecoveryPage: React.FC = () => {
     initialState,
   )
 
-  // checkError===============================================
+  // check Error===============================================
 
   const checkError = () => {
-    const { email } = state.formValues
+    const { email, password } = state.formValues
     const errors = {
       [EMAIL]: '',
+      [PASSWORD]: '',
     }
 
     if (email.length < 1) {
@@ -51,6 +57,12 @@ const RecoveryPage: React.FC = () => {
       errors[EMAIL] = FIELD_ERR.EMAIL
     }
 
+    if (password.length < 1) {
+      errors[PASSWORD] = FIELD_ERR.IS_EMPTY
+    } else if (!REG_EXP_PASSWORD.test(password)) {
+      errors[PASSWORD] = FIELD_ERR.PASSWORD
+    }
+
     dispatch({
       type: REQUEST_ACTION_TYPE.SET_FORM_ERRORS,
       payload: errors,
@@ -59,12 +71,12 @@ const RecoveryPage: React.FC = () => {
     return Object.values(errors).every((error) => !error)
   }
 
-  // check Input/Submit==================================================
+  // Submit==================================================
 
   const hundleSubmit = () => {
     const check = checkError()
 
-    if (check) sendData()
+    if (check) signin()
   }
 
   const handleChange = (name: string, value: string) => {
@@ -79,10 +91,11 @@ const RecoveryPage: React.FC = () => {
 
   // Send Data=============================================
 
-  const sendData = async () => {
+  const signin = async () => {
     try {
       const res = await fetch(
-        `http://${SERVER_IP}/recovery`,
+        `http://${SERVER_IP}/signin`,
+
         {
           method: 'POST',
           headers: {
@@ -95,7 +108,16 @@ const RecoveryPage: React.FC = () => {
       const data: ResData = await res.json()
 
       if (res.ok) {
-        navigate('/recovery-confirm')
+        if (auth) {
+          auth.dispatch({
+            type: 'LOGIN',
+            payload: {
+              token: data.session.token,
+              user: data.session.user,
+            },
+          })
+        }
+        navigate('/balance')
       }
 
       dispatch({
@@ -113,10 +135,11 @@ const RecoveryPage: React.FC = () => {
   const convertData = () => {
     return JSON.stringify({
       [EMAIL]: state.formValues[EMAIL],
+      [PASSWORD]: state.formValues[PASSWORD],
     })
   }
 
-  // ==============================================================
+  // =====================================================
 
   return (
     <Page>
@@ -125,8 +148,8 @@ const RecoveryPage: React.FC = () => {
         <BackLink />
 
         <Header
-          title="Recover password"
-          text="Choose a recovery method"
+          title="Sign in"
+          text="Select login method"
         />
 
         <Input
@@ -137,11 +160,28 @@ const RecoveryPage: React.FC = () => {
           onChange={(value) => handleChange(EMAIL, value)}
         />
 
-        <Button onClick={hundleSubmit}>Send code</Button>
+        <Input
+          error={state.formErrors[PASSWORD]}
+          onChange={(value) =>
+            handleChange(PASSWORD, value)
+          }
+          name={PASSWORD}
+          placeholder={PLACEHOLDER_NAME.PASSWORD}
+          label={LABLE_NAME.PASSWORD}
+          password
+        />
+
+        <Prefix
+          text="Forgot your password?"
+          link="/recovery"
+          linkText="Restore"
+        />
+
+        <Button onClick={hundleSubmit}>Continue</Button>
 
         <Alert text={state.alert} />
       </Grid>
     </Page>
   )
 }
-export default RecoveryPage
+export default SigninPage

@@ -2,13 +2,11 @@ import React, { FC } from 'react'
 import cl from './FieldTitle.module.css'
 
 interface FieldTitleProps {
-    text:string
+  text: string
 }
 
-const FieldTitle :FC <FieldTitleProps> = ({text}) => {
-  return (
-    <div className={cl.title}>{text}</div>
-  )
+const FieldTitle: FC<FieldTitleProps> = ({ text }) => {
+  return <h2 className={cl.title}>{text}</h2>
 }
 
 export default FieldTitle

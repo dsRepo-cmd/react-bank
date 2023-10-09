@@ -1,60 +1,56 @@
-import React, { useContext, useReducer } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Page from '../../component/page/Page'
-import BackLink from '../../component/back-link-menu/BackLinkMenu'
-import Header from '../../component/header/Header'
-import Input from '../../component/input/Input'
-import { Button } from '../../component/button/Button'
-import Prefix from '../../component/prefix/Prefix'
-import Alert from '../../component/alert/Alert'
+import React, { useReducer } from 'react'
+import Page from '../component/page/Page'
+import BackLink from '../component/back-link-menu/BackLinkMenu'
+import Header from '../component/header/Header'
+import Input from '../component/input/Input'
+import { Button } from '../component/button/Button'
+import Alert from '../component/alert/Alert'
+import Grid from '../component/grid/Grid'
 import {
   FIELD_ERR,
   FIELD_NAME,
   LABLE_NAME,
   PLACEHOLDER_NAME,
-  REG_EXP_EMAIL,
   REG_EXP_PASSWORD,
   ResData,
   SERVER_IP,
-} from '../../util/consts'
-import Grid from '../../component/grid/Grid'
-import StatusBar from '../../component/status-bar/StatusBar'
-import { AuthContext } from '../../App'
+} from '../util/consts'
+import { useNavigate } from 'react-router-dom'
+import StatusBar from '../component/status-bar/StatusBar'
+import { AuthContext } from '../App'
 import {
   REQUEST_ACTION_TYPE,
   initialState,
   reducer,
-} from '../../util/reduser'
+} from '../util/reduser'
 
-const { EMAIL, PASSWORD } = FIELD_NAME
+const { CODE, PASSWORD, NEW_PASSWORD } = FIELD_NAME
 
-// =============================================================
+// ===========================================================
 
-const SignupPage: React.FC = () => {
-  const auth = useContext(AuthContext)
-  const navigate = useNavigate()
+const RecoveryConfirmPage: React.FC = () => {
+  const auth = React.useContext(AuthContext)
 
   const [state, dispatch] = useReducer(
     reducer,
     initialState,
   )
 
-  // check Error===============================================
+  const navigate = useNavigate()
+
+  // check Error ===============================================
 
   const checkError = () => {
-    const { email, password } = state.formValues
-
+    const { code, password } = state.formValues
     const errors = {
-      [EMAIL]: '',
+      [CODE]: '',
       [PASSWORD]: '',
     }
 
-    if (email.length < 1) {
-      errors[EMAIL] = FIELD_ERR.IS_EMPTY
-    } else if (email.length > 30) {
-      errors[EMAIL] = FIELD_ERR.IS_BIG
-    } else if (!REG_EXP_EMAIL.test(email)) {
-      errors[EMAIL] = FIELD_ERR.EMAIL
+    if (code.length < 1) {
+      errors[CODE] = FIELD_ERR.IS_EMPTY
+    } else if (code.length > 6) {
+      errors[CODE] = FIELD_ERR.IS_BIG
     }
 
     if (password.length < 1) {
@@ -71,12 +67,12 @@ const SignupPage: React.FC = () => {
     return Object.values(errors).every((error) => !error)
   }
 
-  // Check input/submit ===============================================
+  // check Input/Submit  ===============================================
 
   const hundleSubmit = () => {
     const check = checkError()
 
-    if (check) signup()
+    if (check) recoveryAcc()
   }
 
   const handleChange = (name: string, value: string) => {
@@ -91,10 +87,10 @@ const SignupPage: React.FC = () => {
 
   // Send Data=============================================
 
-  const signup = async () => {
+  const recoveryAcc = async () => {
     try {
       const res = await fetch(
-        `http://${SERVER_IP}/signup`,
+        `http://${SERVER_IP}/recovery-confirm`,
         {
           method: 'POST',
           headers: {
@@ -116,8 +112,7 @@ const SignupPage: React.FC = () => {
             },
           })
         }
-
-        navigate('/signup-confirm')
+        navigate('/balance')
       }
 
       dispatch({
@@ -134,49 +129,51 @@ const SignupPage: React.FC = () => {
 
   const convertData = () => {
     return JSON.stringify({
-      [EMAIL]: state.formValues[EMAIL],
+      [CODE]: Number(state.formValues[CODE]),
       [PASSWORD]: state.formValues[PASSWORD],
     })
   }
 
-  // =====================================================
+  // ===========================================================
 
   return (
     <Page>
       <Grid>
         <StatusBar />
         <BackLink />
+
         <Header
-          title="Sign up"
-          text="Choose a registration method"
+          title="Confirm account"
+          text="Write the code you received"
         />
+
         <Input
-          error={state.formErrors[EMAIL]}
-          name={EMAIL}
-          placeholder={PLACEHOLDER_NAME.EMAIL}
-          label={LABLE_NAME.EMAIL}
-          onChange={(value) => handleChange(EMAIL, value)}
+          error={state.formErrors[CODE]}
+          name={CODE}
+          placeholder={PLACEHOLDER_NAME.CODE}
+          label="Code"
+          onChange={(value) => handleChange(CODE, value)}
         />
+
         <Input
           error={state.formErrors[PASSWORD]}
-          name={PASSWORD}
-          placeholder={PLACEHOLDER_NAME.PASSWORD}
-          label={LABLE_NAME.PASSWORD}
-          password
+          name={NEW_PASSWORD}
+          placeholder={PLACEHOLDER_NAME.NEW_PASSWORD}
+          label={LABLE_NAME.NEW_PASSWORD}
           onChange={(value) =>
             handleChange(PASSWORD, value)
           }
+          password
         />
-        <Prefix
-          text="Already have an account?"
-          link="/signin"
-          linkText="Sign In"
-        />
-        <Button onClick={hundleSubmit}>Continue</Button>
+
+        <Button onClick={hundleSubmit}>
+          Restore password
+        </Button>
+
         <Alert text={state.alert} />
       </Grid>
     </Page>
   )
 }
 
-export default SignupPage
+export default RecoveryConfirmPage

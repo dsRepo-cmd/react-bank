@@ -1,4 +1,3 @@
-// Підключаємо роутер до бек-енду
 const express = require('express')
 const router = express.Router()
 
@@ -30,8 +29,8 @@ router.post('/balance', function (req, res) {
     )
 
     const session = {
-      balance: balance,
-      transactions: transactions,
+      balance,
+      transactions,
     }
 
     return res.status(200).json({
@@ -49,8 +48,6 @@ router.post('/balance', function (req, res) {
 
 router.post('/recive', function (req, res) {
   const { sum, email, paymentSystem } = req.body
-
-  console.log(sum, email, paymentSystem)
 
   if (!sum || !paymentSystem || !email) {
     return res.status(400).json({
@@ -74,10 +71,9 @@ router.post('/recive', function (req, res) {
 })
 
 // ================================================================
+
 router.post('/send', function (req, res) {
   const { sum, email, payTo } = req.body
-
-  console.log(sum, email, payTo)
 
   if (!sum || !email || !payTo) {
     return res.status(400).json({
@@ -89,10 +85,6 @@ router.post('/send', function (req, res) {
     const user = User.getByEmail(email)
 
     const userPayTo = User.getByEmail(payTo)
-
-    const transactions = Transactions.getAllTransactions()
-
-    console.log(transactions)
 
     if (!userPayTo) {
       return res.status(400).json({
@@ -114,6 +106,7 @@ router.post('/send', function (req, res) {
 })
 
 // ================================================================
+
 router.get('/transaction/:id', function (req, res) {
   const { id } = req.params
 
@@ -140,6 +133,7 @@ router.get('/transaction/:id', function (req, res) {
 })
 
 // ================================================================
+
 router.post('/notifications', function (req, res) {
   const { userId } = req.body
 

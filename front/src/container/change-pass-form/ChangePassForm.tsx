@@ -160,7 +160,7 @@ const ChangePassForm: React.FC = () => {
         label={LABLE_NAME.NEW_PASSWORD}
         password
       />
-      <Button outline onClick={hundleSubmit}>
+      <Button outline onClick={hundleSubmit} small>
         Save Password
       </Button>
       <Alert success={state?.data} text={state.alert} />

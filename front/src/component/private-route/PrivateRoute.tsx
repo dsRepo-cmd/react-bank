@@ -1,6 +1,6 @@
 import React from 'react'
 import { AuthContext } from '../../App'
-import Error from '../../page/error/Error'
+import Error from '../../page/ErrorPage'
 import { Navigate } from 'react-router-dom'
 
 const PrivateRoute: React.FC<{

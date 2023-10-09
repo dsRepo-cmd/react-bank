@@ -103,4 +103,5 @@ export interface Notifications {
   date: string
 }
 
-export const SERVER_IP = 'localhost:4000' //'192.168.1.151:4000'
+export const SERVER_IP = 'localhost:4000'
+// export const SERVER_IP = '192.168.1.151:4000'

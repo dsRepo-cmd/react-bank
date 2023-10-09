@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import cl from './Input.module.css'
 import eyeIco from './svg/eye.svg'
 import eyeHideIco from './svg/eye-hide.svg'
@@ -28,12 +28,13 @@ const Input: React.FC<InputProps> = ({
     setHide(!isHide)
   }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const newValue = e.target.value
-    if (onChange) onChange(newValue)
-  }
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value
+      if (onChange) onChange(newValue)
+    },
+    [onChange],
+  )
 
   const inputClass = `${cl.input} ${
     error && error.length > 1 ? cl.input__error : ''

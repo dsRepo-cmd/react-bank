@@ -6,12 +6,13 @@
 
   padding: 20px;
 
-  background-image: url('./background.png');
+  background-image: url('./svg/background.png');
   background-repeat: no-repeat;
   background-size: cover;
 
   min-height: 570px;
   border-radius: 0px 0px 48px 48px;
+  margin-bottom: 65px;
 }
 
 .title {
@@ -29,7 +30,7 @@
 
 .img {
   position: absolute;
-  background-image: url('./safe.png');
+  background-image: url('./svg/safe.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-origin: content-box;
@@ -38,13 +39,4 @@
   top: -30px;
   left: -200px;
   pointer-events: none;
-}
-
-.footer {
-  padding: 20px;
-
-  margin-top: 70px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }

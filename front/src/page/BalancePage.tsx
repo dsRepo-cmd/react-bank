@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import Page from '../../component/page/Page'
-
-import cl from './BalancePage.module.css'
-import Grid from '../../component/grid/Grid'
-import StatusBar from '../../component/status-bar/StatusBar'
+import Page from '../component/page/Page'
+import Grid from '../component/grid/Grid'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../App'
+import { AuthContext } from '../App'
 import {
   FIELD_NAME,
   ResData,
   SERVER_IP,
   Transaction,
-} from '../../util/consts'
-
-import BalanceList from '../../container/balance-list/BalanceList'
+} from '../util/consts'
+import BalanceList from '../container/balance-list/BalanceList'
+import BalancePanel from '../container/balance-panel/BalancePanel'
 
 const BalancePage: React.FC = () => {
   const [balance, setBalance] = useState<number>(0)
@@ -70,38 +67,7 @@ const BalancePage: React.FC = () => {
 
   return (
     <Page>
-      <div className={cl.back}>
-        <StatusBar />
-
-        <div className={cl.header}>
-          <div
-            onClick={() => navigate('/settings')}
-            className={cl.settings}
-          ></div>
-          <div className={cl.title}>Main wallet</div>
-          <div
-            onClick={() => navigate('/notifications')}
-            className={cl.notifications}
-          ></div>
-        </div>
-
-        <h1 className={cl.balance}>
-          $ {balance.toFixed(2)}
-        </h1>
-
-        <div className={cl.buttons}>
-          <div
-            onClick={() => navigate('/recive')}
-            className={cl.recive}
-          ></div>
-          <div
-            onClick={() => navigate('/send')}
-            className={cl.send}
-          ></div>
-          <div className={cl.buttons__text}>Receive</div>
-          <div className={cl.buttons__text}>Send</div>
-        </div>
-      </div>
+      <BalancePanel balance={balance} />
 
       <Grid>
         <BalanceList

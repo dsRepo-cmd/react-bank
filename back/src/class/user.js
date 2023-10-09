@@ -23,19 +23,25 @@ class User {
   }
 
   static getByEmail = (email) => {
-    return (
-      this.#list.find(
-        (user) =>
-          user.email === String(email).toLowerCase(),
-      ) || null
+    const user = this.#list.find(
+      (user) => user.email === String(email).toLowerCase(),
     )
+    if (user) {
+      return user
+    }
+
+    return false
   }
 
   static getById = (id) => {
-    return (
-      this.#list.find((user) => user.id === Number(id)) ||
-      null
+    const user = this.#list.find(
+      (user) => user.id === Number(id),
     )
+    if (user) {
+      return user
+    }
+
+    return false
   }
 
   static getlist = () => this.#list

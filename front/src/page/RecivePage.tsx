@@ -3,12 +3,12 @@ import React, {
   useState,
   useReducer,
 } from 'react'
-import Page from '../../component/page/Page'
-import BackLink from '../../component/back-link-menu/BackLinkMenu'
-import Grid from '../../component/grid/Grid'
-import StatusBar from '../../component/status-bar/StatusBar'
-import Input from '../../component/input/Input'
-import PaymentSystemList from '../../container/payment-system-list/PaymentSystemList'
+import Page from '../component/page/Page'
+import BackLink from '../component/back-link-menu/BackLinkMenu'
+import Grid from '../component/grid/Grid'
+import StatusBar from '../component/status-bar/StatusBar'
+import Input from '../component/input/Input'
+import PaymentSystemList from '../container/payment-system-list/PaymentSystemList'
 import {
   BACKGROUND_COLOR,
   FIELD_ERR,
@@ -17,16 +17,16 @@ import {
   REG_EXP_MONEY,
   ResData,
   SERVER_IP,
-} from '../../util/consts'
-import { AuthContext } from '../../App'
-import Alert from '../../component/alert/Alert'
+} from '../util/consts'
+import { AuthContext } from '../App'
+import Alert from '../component/alert/Alert'
 import {
   REQUEST_ACTION_TYPE,
   initialState,
   reducer,
-} from '../../util/reduser'
-import FieldTitle from '../../component/field-title/FieldTitle'
-import Divider from '../../component/divider/Divider'
+} from '../util/reduser'
+import FieldTitle from '../component/field-title/FieldTitle'
+import Divider from '../component/divider/Divider'
 
 const { SUM, EMAIL, PAY_SYSTEM } = FIELD_NAME
 

@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import Page from '../../component/page/Page'
-import BackLink from '../../component/back-link-menu/BackLinkMenu'
-import Grid from '../../component/grid/Grid'
-import StatusBar from '../../component/status-bar/StatusBar'
-import { AuthContext } from '../../App'
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+} from 'react'
+import Page from '../component/page/Page'
+import BackLink from '../component/back-link-menu/BackLinkMenu'
+import Grid from '../component/grid/Grid'
+import StatusBar from '../component/status-bar/StatusBar'
+import { AuthContext } from '../App'
 import {
   BACKGROUND_COLOR,
   FIELD_NAME,
   Notifications,
   ResData,
   SERVER_IP,
-} from '../../util/consts'
-import NotificationsList from '../../container/notifications-list/NotificationsList'
+} from '../util/consts'
+import NotificationsList from '../container/notifications-list/NotificationsList'
 
 const NotificationsPage: React.FC = () => {
   const [notifications, setNotifications] = useState<
     Notifications[]
   >([])
+  const auth = useContext(AuthContext)
 
-  const auth = React.useContext(AuthContext)
-
-  // Get Notifications=============================================
-
-  const getNotifications = async () => {
+  const getNotifications = useCallback(async () => {
     try {
       const res = await fetch(
         `http://${SERVER_IP}/notifications`,
@@ -42,7 +44,7 @@ const NotificationsPage: React.FC = () => {
           setNotifications(data.session.notifications)
       }
     } catch (error: any) {}
-  }
+  }, [auth])
 
   const convertData = () => {
     return JSON.stringify({
@@ -52,7 +54,7 @@ const NotificationsPage: React.FC = () => {
 
   useEffect(() => {
     getNotifications()
-  }, [])
+  }, [getNotifications])
 
   return (
     <Page backgroundColor={BACKGROUND_COLOR.LIGHT_WHITE}>

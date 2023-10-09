@@ -1,14 +1,14 @@
 import React, { useReducer } from 'react'
-import Page from '../../component/page/Page'
-import BackLink from '../../component/back-link-menu/BackLinkMenu'
+import Page from '../component/page/Page'
+import BackLink from '../component/back-link-menu/BackLinkMenu'
 
-import Input from '../../component/input/Input'
-import { Button } from '../../component/button/Button'
-import Prefix from '../../component/prefix/Prefix'
-import Alert from '../../component/alert/Alert'
-import Grid from '../../component/grid/Grid'
-import StatusBar from '../../component/status-bar/StatusBar'
-import { AuthContext } from '../../App'
+import Input from '../component/input/Input'
+import { Button } from '../component/button/Button'
+import Prefix from '../component/prefix/Prefix'
+import Alert from '../component/alert/Alert'
+import Grid from '../component/grid/Grid'
+import StatusBar from '../component/status-bar/StatusBar'
+import { AuthContext } from '../App'
 import {
   BACKGROUND_COLOR,
   FIELD_ERR,
@@ -19,12 +19,12 @@ import {
   REG_EXP_MONEY,
   ResData,
   SERVER_IP,
-} from '../../util/consts'
+} from '../util/consts'
 import {
   REQUEST_ACTION_TYPE,
   initialState,
   reducer,
-} from '../../util/reduser'
+} from '../util/reduser'
 
 const { PAY_TO, SUM, EMAIL } = FIELD_NAME
 // ===========================================================

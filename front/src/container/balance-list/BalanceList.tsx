@@ -46,16 +46,16 @@ const BalanceList: React.FC<BalanceListProps> = ({
             />
 
             <div className={cl.item__info}>
-              <div className={cl.item__info__sender}>
+              <p className={cl.item__info__sender}>
                 {sender}
-              </div>
-              <div className={cl.item__info__type}>
+              </p>
+              <p className={cl.item__info__type}>
                 {type}{' '}
                 <span
                   className={cl.item__info__dote}
                 ></span>{' '}
                 {getTime(date)}
-              </div>
+              </p>
             </div>
             <span
               className={`${cl.item__amount} ${

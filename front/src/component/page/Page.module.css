@@ -1,6 +1,5 @@
 .page {
   position: relative;
-
   overflow: hidden;
   width: 395px;
   min-height: 850px;
@@ -17,13 +16,8 @@
 /* .page {
   position: relative;
   overflow: hidden;
-
   width: 395px;
   min-height: 100vh;
   margin: auto;
-  border-radius: 24px;
-
-
-
   background-color: #fff;
 } */

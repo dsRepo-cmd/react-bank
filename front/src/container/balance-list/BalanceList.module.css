@@ -8,8 +8,9 @@
   display: grid;
   grid-template-columns: 50px 1fr 1fr;
   align-items: center;
-  width: 100%;
   gap: 12px;
+
+  width: 100%;
   cursor: pointer;
   transition: all 0.5s;
 }
@@ -19,8 +20,6 @@
 
 .item:active {
   opacity: 0.5;
-}
-.item__img {
 }
 
 .item__info {

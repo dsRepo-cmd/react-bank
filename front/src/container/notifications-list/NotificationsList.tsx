@@ -31,14 +31,14 @@ const NotificationsList: React.FC<NotificationsProps> = ({
             alt="Ico"
           />
           <div className={cl.item__info}>
-            <div className={cl.item__message}>
+            <h2 className={cl.item__message}>
               {notification.message}
-            </div>
-            <div className={cl.item__text}>
+            </h2>
+            <p className={cl.item__text}>
               {notification.type}{' '}
               <span className={cl.item__dote}></span>{' '}
               {getTimeAgoString(notification.date)}
-            </div>
+            </p>
           </div>
         </li>
       ))}

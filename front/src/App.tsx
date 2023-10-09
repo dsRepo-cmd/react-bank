@@ -8,19 +8,8 @@ import {
   Route,
   Routes,
 } from 'react-router-dom'
-import { WellcomePage } from './page/wellcome/WellcomePage'
-import SignupPage from './page/signup/SignupPage'
-import SigninPage from './page/signin/SigninPage'
-import SignupConfirmPage from './page/signup-confirm/SignupConfirmPage'
-import RecoveryPage from './page/recovery/RecoveryPage'
-import RecoveryConfirmPage from './page/recovery-confirm/RecoveryConfirmPage'
-import SendPage from './page/send/SendPage'
-import BalancePage from './page/balance/BalancePage'
-import Error from './page/error/Error'
-import SettingsPage from './page/settings/SettingsPage'
-import NotificationsPage from './page/notifications/NotificationsPage'
-import RecivePage from './page/recive/RecivePage'
-import TransactionPage from './page/transaction/TransactionPage'
+import { WellcomePage } from './page/WellcomePage'
+
 import AuthRoute from './component/auth-route/AuthRoute'
 import PrivateRoute from './component/private-route/PrivateRoute'
 import {
@@ -28,6 +17,18 @@ import {
   authReducer,
   loadStateFromLocalStorage,
 } from './util/authReduser'
+import SignupPage from './page/SignupPage'
+import SignupConfirmPage from './page/SignupConfirmPage'
+import SigninPage from './page/SigninPage'
+import RecoveryPage from './page/RecoveryPage'
+import RecoveryConfirmPage from './page/RecoveryConfirmPage'
+import BalancePage from './page/BalancePage'
+import NotificationsPage from './page/NotificationsPage'
+import SettingsPage from './page/SettingsPage'
+import RecivePage from './page/RecivePage'
+import SendPage from './page/SendPage'
+import TransactionPage from './page/TransactionPage'
+import ErrorPage from './page/ErrorPage'
 
 export const AuthContext = createContext<ContexType | null>(
   null,
@@ -153,7 +154,7 @@ const App: React.FC = () => {
               </PrivateRoute>
             }
           />
-          <Route path="*" element={<Error />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>

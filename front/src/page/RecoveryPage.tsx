@@ -1,34 +1,33 @@
 import React, { useReducer } from 'react'
-import Page from '../../component/page/Page'
-import BackLink from '../../component/back-link-menu/BackLinkMenu'
-import Header from '../../component/header/Header'
-import Input from '../../component/input/Input'
-import { Button } from '../../component/button/Button'
-import Alert from '../../component/alert/Alert'
-import Grid from '../../component/grid/Grid'
+import Page from '../component/page/Page'
+import BackLink from '../component/back-link-menu/BackLinkMenu'
+import Header from '../component/header/Header'
+import Input from '../component/input/Input'
+import { Button } from '../component/button/Button'
+import Alert from '../component/alert/Alert'
 import {
   FIELD_ERR,
   FIELD_NAME,
   LABLE_NAME,
   PLACEHOLDER_NAME,
+  REG_EXP_EMAIL,
   ResData,
   SERVER_IP,
-} from '../../util/consts'
+} from '../util/consts'
+import Grid from '../component/grid/Grid'
 import { useNavigate } from 'react-router-dom'
-import StatusBar from '../../component/status-bar/StatusBar'
-import { AuthContext } from '../../App'
+import StatusBar from '../component/status-bar/StatusBar'
 import {
   REQUEST_ACTION_TYPE,
   initialState,
   reducer,
-} from '../../util/reduser'
+} from '../util/reduser'
 
-const { CODE } = FIELD_NAME
+const { EMAIL } = FIELD_NAME
 
 // ==============================================================
 
-const SignupConfirmPage: React.FC = () => {
-  const auth = React.useContext(AuthContext)
+const RecoveryPage: React.FC = () => {
   const navigate = useNavigate()
 
   const [state, dispatch] = useReducer(
@@ -36,19 +35,20 @@ const SignupConfirmPage: React.FC = () => {
     initialState,
   )
 
-  // set Error ================================================
+  // checkError===============================================
 
   const checkError = () => {
-    const { code } = state.formValues
-
+    const { email } = state.formValues
     const errors = {
-      [CODE]: '',
+      [EMAIL]: '',
     }
 
-    if (code.length < 1) {
-      errors[CODE] = FIELD_ERR.IS_EMPTY
-    } else if (code.length > 6) {
-      errors[CODE] = FIELD_ERR.IS_EMPTY
+    if (email.length < 1) {
+      errors[EMAIL] = FIELD_ERR.IS_EMPTY
+    } else if (email.length > 30) {
+      errors[EMAIL] = FIELD_ERR.IS_BIG
+    } else if (!REG_EXP_EMAIL.test(email)) {
+      errors[EMAIL] = FIELD_ERR.EMAIL
     }
 
     dispatch({
@@ -58,12 +58,13 @@ const SignupConfirmPage: React.FC = () => {
 
     return Object.values(errors).every((error) => !error)
   }
-  // Submit / input================================================
+
+  // check Input/Submit==================================================
 
   const hundleSubmit = () => {
     const check = checkError()
 
-    if (check) sendCode()
+    if (check) sendData()
   }
 
   const handleChange = (name: string, value: string) => {
@@ -77,10 +78,11 @@ const SignupConfirmPage: React.FC = () => {
   }
 
   // Send Data=============================================
-  const sendCode = async () => {
+
+  const sendData = async () => {
     try {
       const res = await fetch(
-        `http://${SERVER_IP}/signup-confirm`,
+        `http://${SERVER_IP}/recovery`,
         {
           method: 'POST',
           headers: {
@@ -93,17 +95,7 @@ const SignupConfirmPage: React.FC = () => {
       const data: ResData = await res.json()
 
       if (res.ok) {
-        if (auth) {
-          auth.dispatch({
-            type: 'LOGIN',
-            payload: {
-              token: data.session.token,
-              user: data.session.user,
-            },
-          })
-        }
-
-        navigate('/balance')
+        navigate('/recovery-confirm')
       }
 
       dispatch({
@@ -120,8 +112,7 @@ const SignupConfirmPage: React.FC = () => {
 
   const convertData = () => {
     return JSON.stringify({
-      [CODE]: Number(state.formValues[CODE]),
-      token: auth?.state.token,
+      [EMAIL]: state.formValues[EMAIL],
     })
   }
 
@@ -134,23 +125,23 @@ const SignupConfirmPage: React.FC = () => {
         <BackLink />
 
         <Header
-          title="Confirm account"
-          text="Write the code you received"
-        />
-        <Input
-          error={state.formErrors[CODE]}
-          name={CODE}
-          placeholder={PLACEHOLDER_NAME.CODE}
-          label={LABLE_NAME.CODE}
-          onChange={(value) => handleChange(CODE, value)}
+          title="Recover password"
+          text="Choose a recovery method"
         />
 
-        <Button onClick={hundleSubmit}>Confirm</Button>
+        <Input
+          error={state.formErrors[EMAIL]}
+          name={EMAIL}
+          placeholder={PLACEHOLDER_NAME.EMAIL}
+          label={LABLE_NAME.EMAIL}
+          onChange={(value) => handleChange(EMAIL, value)}
+        />
+
+        <Button onClick={hundleSubmit}>Send code</Button>
 
         <Alert text={state.alert} />
       </Grid>
     </Page>
   )
 }
-
-export default SignupConfirmPage
+export default RecoveryPage
