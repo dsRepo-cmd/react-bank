@@ -18,7 +18,8 @@ class Confirm {
       Confirm.delete(newConfirm.code)
     }, 24 * 60 * 60 * 1000)
 
-    console.log(Confirm.#list)
+    // console.log(Confirm.#list)
+    return Confirm.#list.find((code) => (code.data = data))
   }
 
   static delete(code) {

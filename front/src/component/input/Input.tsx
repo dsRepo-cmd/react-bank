@@ -6,10 +6,11 @@ import eyeErrIco from './svg/eye-error.svg'
 import eyeErrHideIco from './svg/eye-error-hide.svg'
 
 interface InputProps {
-  label?: string
   placeholder: string
+  name: string
+  value?: string
+  label?: string
   password?: boolean
-  name?: string
   error?: string
   onChange?: (value: string) => void
 }
@@ -20,6 +21,7 @@ const Input: React.FC<InputProps> = ({
   password = false,
   name,
   error,
+  value,
   onChange,
 }) => {
   const [isHide, setHide] = useState(password)
@@ -56,6 +58,7 @@ const Input: React.FC<InputProps> = ({
 
       <div className={cl.wrapper}>
         <input
+          value={value}
           name={name}
           onInput={handleChange}
           className={inputClass}

@@ -43,6 +43,7 @@ const RecivePage: React.FC = () => {
   const [isDataSent, setIsDataSent] = useState(false)
 
   // check Error ===============================================
+  
   const checkError = (): boolean => {
     const { [SUM]: amount } = state.formValues
 
@@ -149,7 +150,9 @@ const RecivePage: React.FC = () => {
       [PAY_SYSTEM]: state.formValues[PAY_SYSTEM],
     })
   }
+
   // =======================================================================
+
   return (
     <Page backgroundColor={BACKGROUND_COLOR.LIGHT_WHITE}>
       <Grid>

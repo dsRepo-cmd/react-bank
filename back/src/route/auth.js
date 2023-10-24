@@ -38,7 +38,9 @@ router.post('/signup', function (req, res) {
 
     const session = Session.create(newUser)
 
-    Confirm.create(newUser.email)
+    const codeData = Confirm.create(newUser.email)
+
+    console.log(codeData)
 
     return res.status(200).json({
       message: 'The user is successfully registered',
