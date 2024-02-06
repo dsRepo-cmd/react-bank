@@ -1,86 +1,85 @@
 // ====================================
 export type ContexType = {
   state: {
-    isLogged: boolean
-    token: string | null
+    isLogged: boolean;
+    token: string | null;
     user: {
-      email: string
-      id: number
-      isConfirm: boolean
-    } | null
-  }
-  dispatch: (action: Action) => void
-}
+      email: string;
+      id: number;
+      isConfirm: boolean;
+    } | null;
+  };
+  dispatch: (action: Action) => void;
+};
 
 export type Action =
   | {
-      type: 'LOGIN'
+      type: "LOGIN";
       payload: {
-        token: string
+        token: string;
         user: {
-          email: string
-          id: number
-          isConfirm: boolean
-        }
-      }
+          email: string;
+          id: number;
+          isConfirm: boolean;
+        };
+      };
     }
   | {
-      type: 'AUTH'
+      type: "AUTH";
       payload: {
-        token: string
+        token: string;
         user: {
-          email: string
-          id: number
-          isConfirm: boolean
-        }
-      }
+          email: string;
+          id: number;
+          isConfirm: boolean;
+        };
+      };
     }
-  | { type: 'LOGOUT' }
+  | { type: "LOGOUT" };
 
 export const authInitialState = {
   isLogged: false,
   token: null,
   user: { email: null, id: null, isConfirm: null },
-}
+};
 
 export function authReducer(state: any, action: Action) {
   switch (action.type) {
-    case 'LOGIN':
+    case "LOGIN":
       return {
         ...state,
         isLogged: true,
         token: action.payload.token,
         user: action.payload.user,
-      }
+      };
 
-    case 'AUTH':
+    case "AUTH":
       return {
         ...state,
         isLogged: false,
         token: action.payload.token,
         user: action.payload.user,
-      }
-    case 'LOGOUT':
+      };
+    case "LOGOUT":
       return {
         ...state,
         isLogged: false,
         token: null,
         user: {},
-      }
+      };
     default:
-      return state
+      return state;
   }
 }
 
 export const loadStateFromLocalStorage = () => {
   try {
-    const serializedState =
-      localStorage.getItem('authState')
+    const serializedState = localStorage.getItem("authState");
     if (serializedState === null) {
-      return authInitialState
+      return authInitialState;
     }
-    return JSON.parse(serializedState)
+    return JSON.parse(serializedState);
   } catch (err) {
-    return authInitialState
+    return authInitialState;
   }
-}
+};

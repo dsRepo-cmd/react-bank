@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import Page from "../component/page/Page";
 import BackLink from "../component/back-link-menu/BackLinkMenu";
 import Header from "../component/header/Header";
@@ -30,6 +30,8 @@ const SignupConfirmPage: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // set Error ================================================
+
+  const emailCode = window.localStorage.getItem("code");
 
   const checkError = () => {
     const { code } = state.formValues;
@@ -133,7 +135,7 @@ const SignupConfirmPage: React.FC = () => {
         />
 
         <Button onClick={hundleSubmit}>Confirm</Button>
-
+        {emailCode && <div>{emailCode}</div>}
         <Alert text={state.alert} />
       </Grid>
     </Page>

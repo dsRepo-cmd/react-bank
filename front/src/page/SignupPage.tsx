@@ -97,6 +97,8 @@ const SignupPage: React.FC = () => {
       const data: ResData = await res.json();
 
       if (res.ok) {
+        if (data.code) window.localStorage.setItem("code", data.code);
+
         if (auth) {
           auth.dispatch({
             type: "LOGIN",

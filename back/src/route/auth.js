@@ -11,7 +11,7 @@ const { NOTIFICATION_TYPE } = require('../util/const')
 
 router.post('/signup', function (req, res) {
   const { email, password } = req.body
-
+  console.log(email, password)
   if (!email || !password) {
     return res.status(400).json({
       message: 'Error. There are no required fields',
@@ -38,13 +38,14 @@ router.post('/signup', function (req, res) {
 
     const session = Session.create(newUser)
 
-    const codeData = Confirm.create(newUser.email)
+    const { code } = Confirm.create(newUser.email)
 
-    console.log(codeData)
+    console.log(session, code)
 
     return res.status(200).json({
       message: 'The user is successfully registered',
       session,
+      code,
     })
   } catch (error) {
     console.log(error)
