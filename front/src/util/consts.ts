@@ -103,5 +103,5 @@ export interface Notifications {
   date: string;
 }
 
-export const SERVER_IP = "http://localhost:4000";
-// export const SERVER_IP = "https://react-bank-flax.vercel.app";
+// export const SERVER_IP = "http://localhost:4000";
+export const SERVER_IP = "https://react-bank-flax.vercel.app";
