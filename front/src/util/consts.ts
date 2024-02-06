@@ -103,6 +103,6 @@ export interface Notifications {
 }
 
 // export const SERVER_IP = "http://localhost:4000";
-export const SERVER_IP = "https://react-bank-flax.vercel.app/";
+export const SERVER_IP = "https://react-bank-flax.vercel.app";
 
 // export const SERVER_IP = '192.168.1.151:4000'
