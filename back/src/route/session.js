@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { Transactions } = require('../class/transactions')
+const { Transactions } = require('../class/Transactions')
 const { Notifications } = require('../class/Notifications')
-const { User } = require('../class/user')
+const { User } = require('../class/User')
 
 // ================================================================
 

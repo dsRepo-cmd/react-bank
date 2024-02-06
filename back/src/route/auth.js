@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 const { Notifications } = require('../class/Notifications')
-const { Confirm } = require('../class/confirm')
-const { User } = require('../class/user')
-const { Session } = require('../class/session')
+const { Confirm } = require('../class/Confirm')
+const { User } = require('../class/User')
+const { Session } = require('../class/Session')
 const { NOTIFICATION_TYPE } = require('../util/const')
 
 // ================================================================
