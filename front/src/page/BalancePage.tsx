@@ -21,7 +21,7 @@ const BalancePage: React.FC = () => {
 
   const fetchBalanceData = useCallback(async () => {
     try {
-      const res = await fetch(`http://${SERVER_IP}/balance`, {
+      const res = await fetch(`${SERVER_IP}/balance`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

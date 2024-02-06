@@ -25,7 +25,7 @@ const NotificationsPage: React.FC = () => {
 
   const getNotifications = useCallback(async () => {
     try {
-      const res = await fetch(`http://${SERVER_IP}/notifications`, {
+      const res = await fetch(`${SERVER_IP}/notifications`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

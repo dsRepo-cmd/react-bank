@@ -1,10 +1,10 @@
-import React, { useReducer } from 'react'
-import Page from '../component/page/Page'
-import BackLink from '../component/back-link-menu/BackLinkMenu'
-import Header from '../component/header/Header'
-import Input from '../component/input/Input'
-import { Button } from '../component/button/Button'
-import Alert from '../component/alert/Alert'
+import React, { useReducer } from "react";
+import Page from "../component/page/Page";
+import BackLink from "../component/back-link-menu/BackLinkMenu";
+import Header from "../component/header/Header";
+import Input from "../component/input/Input";
+import { Button } from "../component/button/Button";
+import Alert from "../component/alert/Alert";
 import {
   FIELD_ERR,
   FIELD_NAME,
@@ -13,59 +13,52 @@ import {
   REG_EXP_EMAIL,
   ResData,
   SERVER_IP,
-} from '../util/consts'
-import Grid from '../component/grid/Grid'
-import { useNavigate } from 'react-router-dom'
-import StatusBar from '../component/status-bar/StatusBar'
-import {
-  REQUEST_ACTION_TYPE,
-  initialState,
-  reducer,
-} from '../util/reduser'
+} from "../util/consts";
+import Grid from "../component/grid/Grid";
+import { useNavigate } from "react-router-dom";
+import StatusBar from "../component/status-bar/StatusBar";
+import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
 
-const { EMAIL } = FIELD_NAME
+const { EMAIL } = FIELD_NAME;
 
 // ==============================================================
 
 const RecoveryPage: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [state, dispatch] = useReducer(
-    reducer,
-    initialState,
-  )
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   // checkError===============================================
 
   const checkError = () => {
-    const { email } = state.formValues
+    const { email } = state.formValues;
     const errors = {
-      [EMAIL]: '',
-    }
+      [EMAIL]: "",
+    };
 
     if (email.length < 1) {
-      errors[EMAIL] = FIELD_ERR.IS_EMPTY
+      errors[EMAIL] = FIELD_ERR.IS_EMPTY;
     } else if (email.length > 30) {
-      errors[EMAIL] = FIELD_ERR.IS_BIG
+      errors[EMAIL] = FIELD_ERR.IS_BIG;
     } else if (!REG_EXP_EMAIL.test(email)) {
-      errors[EMAIL] = FIELD_ERR.EMAIL
+      errors[EMAIL] = FIELD_ERR.EMAIL;
     }
 
     dispatch({
       type: REQUEST_ACTION_TYPE.SET_FORM_ERRORS,
       payload: errors,
-    })
+    });
 
-    return Object.values(errors).every((error) => !error)
-  }
+    return Object.values(errors).every((error) => !error);
+  };
 
   // check Input/Submit==================================================
 
   const hundleSubmit = () => {
-    const check = checkError()
+    const check = checkError();
 
-    if (check) sendData()
-  }
+    if (check) sendData();
+  };
 
   const handleChange = (name: string, value: string) => {
     dispatch({
@@ -74,47 +67,44 @@ const RecoveryPage: React.FC = () => {
         ...state.formValues,
         [name]: value,
       },
-    })
-  }
+    });
+  };
 
   // Send Data=============================================
 
   const sendData = async () => {
     try {
-      const res = await fetch(
-        `http://${SERVER_IP}/recovery`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: convertData(),
+      const res = await fetch(`${SERVER_IP}/recovery`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      )
+        body: convertData(),
+      });
 
-      const data: ResData = await res.json()
+      const data: ResData = await res.json();
 
       if (res.ok) {
-        navigate('/recovery-confirm')
+        navigate("/recovery-confirm");
       }
 
       dispatch({
         type: REQUEST_ACTION_TYPE.SET_ALERT,
         payload: data.message,
-      })
+      });
     } catch (error: any) {
       dispatch({
         type: REQUEST_ACTION_TYPE.SET_ALERT,
         payload: error.toString(),
-      })
+      });
     }
-  }
+  };
 
   const convertData = () => {
     return JSON.stringify({
       [EMAIL]: state.formValues[EMAIL],
-    })
-  }
+    });
+  };
 
   // ==============================================================
 
@@ -124,10 +114,7 @@ const RecoveryPage: React.FC = () => {
         <StatusBar />
         <BackLink />
 
-        <Header
-          title="Recover password"
-          text="Choose a recovery method"
-        />
+        <Header title="Recover password" text="Choose a recovery method" />
 
         <Input
           error={state.formErrors[EMAIL]}
@@ -142,6 +129,6 @@ const RecoveryPage: React.FC = () => {
         <Alert text={state.alert} />
       </Grid>
     </Page>
-  )
-}
-export default RecoveryPage
+  );
+};
+export default RecoveryPage;

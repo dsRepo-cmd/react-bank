@@ -1,7 +1,7 @@
-import React, { useContext, useReducer } from 'react'
-import Input from '../../component/input/Input'
-import { Button } from '../../component/button/Button'
-import Alert from '../../component/alert/Alert'
+import React, { useContext, useReducer } from "react";
+import Input from "../../component/input/Input";
+import { Button } from "../../component/button/Button";
+import Alert from "../../component/alert/Alert";
 import {
   FIELD_ERR,
   FIELD_NAME,
@@ -11,63 +11,56 @@ import {
   REG_EXP_PASSWORD,
   ResData,
   SERVER_IP,
-} from '../../util/consts'
-import { AuthContext } from '../../App'
-import {
-  REQUEST_ACTION_TYPE,
-  initialState,
-  reducer,
-} from '../../util/reduser'
+} from "../../util/consts";
+import { AuthContext } from "../../App";
+import { REQUEST_ACTION_TYPE, initialState, reducer } from "../../util/reduser";
 
-const { NEW_EMAIL, PASSWORD, EMAIL } = FIELD_NAME
+const { NEW_EMAIL, PASSWORD, EMAIL } = FIELD_NAME;
 // =======================================================================
 
 const ChangeEmailForm: React.FC = () => {
-  const auth = useContext(AuthContext)
+  const auth = useContext(AuthContext);
 
-  const [state, dispatch] = useReducer(
-    reducer,
-    initialState,
-  )
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   // check Error =============================================
 
   const checkError = () => {
-    const { newEmail, password } = state.formValues
+    const { newEmail, password } = state.formValues;
 
     const errors = {
-      [NEW_EMAIL]: '',
-      [PASSWORD]: '',
-    }
+      [NEW_EMAIL]: "",
+      [PASSWORD]: "",
+    };
 
     if (newEmail.length < 1) {
-      errors[NEW_EMAIL] = FIELD_ERR.IS_EMPTY
+      errors[NEW_EMAIL] = FIELD_ERR.IS_EMPTY;
     } else if (newEmail.length > 30) {
-      errors[NEW_EMAIL] = FIELD_ERR.IS_BIG
+      errors[NEW_EMAIL] = FIELD_ERR.IS_BIG;
     } else if (!REG_EXP_EMAIL.test(newEmail)) {
-      errors[NEW_EMAIL] = FIELD_ERR.EMAIL
+      errors[NEW_EMAIL] = FIELD_ERR.EMAIL;
     }
 
     if (password.length < 1) {
-      errors[PASSWORD] = FIELD_ERR.IS_EMPTY
+      errors[PASSWORD] = FIELD_ERR.IS_EMPTY;
     } else if (!REG_EXP_PASSWORD.test(password)) {
-      errors[PASSWORD] = FIELD_ERR.PASSWORD
+      errors[PASSWORD] = FIELD_ERR.PASSWORD;
     }
 
     dispatch({
       type: REQUEST_ACTION_TYPE.SET_FORM_ERRORS,
       payload: errors,
-    })
+    });
 
-    return Object.values(errors).every((error) => !error)
-  }
+    return Object.values(errors).every((error) => !error);
+  };
   // Check input/submit ===============================================
 
   const hundleSubmit = () => {
-    const check = checkError()
+    const check = checkError();
 
-    if (check) changeEmail()
-  }
+    if (check) changeEmail();
+  };
 
   const handleChange = (name: string, value: string) => {
     dispatch({
@@ -76,70 +69,67 @@ const ChangeEmailForm: React.FC = () => {
         ...state.formValues,
         [name]: value,
       },
-    })
-  }
+    });
+  };
 
   // Send Data=============================================
 
   const changeEmail = async () => {
     try {
-      const res = await fetch(
-        `http://${SERVER_IP}/settings-email`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: convertDataEmail(),
+      const res = await fetch(`${SERVER_IP}/settings-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      )
+        body: convertDataEmail(),
+      });
 
-      const data: ResData = await res.json()
+      const data: ResData = await res.json();
 
       if (res.ok) {
         auth?.dispatch({
-          type: 'LOGIN',
+          type: "LOGIN",
           payload: {
             token: data.session.token,
             user: data.session.user,
           },
-        })
+        });
 
         dispatch({
           type: REQUEST_ACTION_TYPE.SUCCESS,
           payload: true,
-        })
+        });
 
         return dispatch({
           type: REQUEST_ACTION_TYPE.SET_ALERT,
           payload: data.message,
-        })
+        });
       }
 
       dispatch({
         type: REQUEST_ACTION_TYPE.SUCCESS,
         payload: false,
-      })
+      });
 
       dispatch({
         type: REQUEST_ACTION_TYPE.SET_ALERT,
         payload: data.message,
-      })
+      });
     } catch (error: any) {
       dispatch({
         type: REQUEST_ACTION_TYPE.SET_ALERT,
         payload: error.toString(),
-      })
+      });
     }
-  }
+  };
 
   const convertDataEmail = () => {
     return JSON.stringify({
       [NEW_EMAIL]: state.formValues[NEW_EMAIL],
       [PASSWORD]: state.formValues[PASSWORD],
       [EMAIL]: auth?.state?.user?.email,
-    })
-  }
+    });
+  };
 
   // =======================================================================
 
@@ -165,7 +155,7 @@ const ChangeEmailForm: React.FC = () => {
       </Button>
       <Alert success={state.data} text={state.alert} />
     </>
-  )
-}
+  );
+};
 
-export default ChangeEmailForm
+export default ChangeEmailForm;

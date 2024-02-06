@@ -87,7 +87,7 @@ const RecivePage: React.FC = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const res = await fetch(`http://${SERVER_IP}/recive`, {
+      const res = await fetch(`${SERVER_IP}/recive`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
