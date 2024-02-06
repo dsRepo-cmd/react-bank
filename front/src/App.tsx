@@ -1,48 +1,38 @@
-import React, {
-  createContext,
-  useEffect,
-  useReducer,
-} from 'react'
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-} from 'react-router-dom'
-import { WellcomePage } from './page/WellcomePage'
+import React, { createContext, useEffect, useReducer } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { WellcomePage } from "./page/WellcomePage";
 
-import AuthRoute from './component/auth-route/AuthRoute'
-import PrivateRoute from './component/private-route/PrivateRoute'
+import AuthRoute from "./component/auth-route/AuthRoute";
+import PrivateRoute from "./component/private-route/PrivateRoute";
 import {
   ContexType,
   authReducer,
   loadStateFromLocalStorage,
-} from './util/authReduser'
-import SignupPage from './page/SignupPage'
-import SignupConfirmPage from './page/SignupConfirmPage'
-import SigninPage from './page/SigninPage'
-import RecoveryPage from './page/RecoveryPage'
-import RecoveryConfirmPage from './page/RecoveryConfirmPage'
-import BalancePage from './page/BalancePage'
-import NotificationsPage from './page/NotificationsPage'
-import SettingsPage from './page/SettingsPage'
-import RecivePage from './page/RecivePage'
-import SendPage from './page/SendPage'
-import TransactionPage from './page/TransactionPage'
-import ErrorPage from './page/ErrorPage'
+} from "./util/authReduser";
+import SignupPage from "./page/SignupPage";
+import SignupConfirmPage from "./page/SignupConfirmPage";
+import SigninPage from "./page/SigninPage";
+import RecoveryPage from "./page/RecoveryPage";
+import RecoveryConfirmPage from "./page/RecoveryConfirmPage";
+import BalancePage from "./page/BalancePage";
+import NotificationsPage from "./page/NotificationsPage";
+import SettingsPage from "./page/SettingsPage";
+import RecivePage from "./page/RecivePage";
+import SendPage from "./page/SendPage";
+import TransactionPage from "./page/TransactionPage";
+import ErrorPage from "./page/ErrorPage";
 
-export const AuthContext = createContext<ContexType | null>(
-  null,
-)
+export const AuthContext = createContext<ContexType | null>(null);
 // ======================================================
 const App: React.FC = () => {
   const [state, dispatch] = useReducer(
     authReducer,
-    loadStateFromLocalStorage(),
-  )
+    loadStateFromLocalStorage()
+  );
 
   useEffect(() => {
-    localStorage.setItem('authState', JSON.stringify(state))
-  }, [state])
+    localStorage.setItem("authState", JSON.stringify(state));
+  }, [state]);
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
@@ -68,9 +58,9 @@ const App: React.FC = () => {
           <Route
             path="/signup-confirm"
             element={
-              <PrivateRoute>
+              <AuthRoute>
                 <SignupConfirmPage />
-              </PrivateRoute>
+              </AuthRoute>
             }
           />
 
@@ -158,7 +148,7 @@ const App: React.FC = () => {
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -21,6 +21,7 @@ import Grid from "../component/grid/Grid";
 import StatusBar from "../component/status-bar/StatusBar";
 import { AuthContext } from "../App";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
+import { AUTH_ACTION_TYPE } from "../util/authReduser";
 
 const { EMAIL, PASSWORD } = FIELD_NAME;
 
@@ -99,9 +100,11 @@ const SignupPage: React.FC = () => {
       if (res.ok) {
         if (data.code) window.localStorage.setItem("code", data.code);
 
+        console.log(data);
+
         if (auth) {
           auth.dispatch({
-            type: "LOGIN",
+            type: AUTH_ACTION_TYPE.AUTH,
             payload: {
               token: data.session.token,
               user: data.session.user,

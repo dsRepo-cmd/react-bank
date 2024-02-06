@@ -15,7 +15,7 @@ class Notifications {
 
     this.#list.push(notification)
 
-    console.log(this.#list)
+    // console.log(this.#list)
 
     return notification
   }

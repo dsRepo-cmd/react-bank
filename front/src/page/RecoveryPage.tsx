@@ -85,6 +85,8 @@ const RecoveryPage: React.FC = () => {
       const data: ResData = await res.json();
 
       if (res.ok) {
+        if (data.code) window.localStorage.setItem("code", data.code);
+
         navigate("/recovery-confirm");
       }
 

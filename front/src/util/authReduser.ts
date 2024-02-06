@@ -12,9 +12,15 @@ export type ContexType = {
   dispatch: (action: Action) => void;
 };
 
+export enum AUTH_ACTION_TYPE {
+  LOGIN = "login",
+  AUTH = "auth",
+  LOGOUT = "logout",
+}
+
 export type Action =
   | {
-      type: "LOGIN";
+      type: AUTH_ACTION_TYPE.LOGIN;
       payload: {
         token: string;
         user: {
@@ -25,7 +31,7 @@ export type Action =
       };
     }
   | {
-      type: "AUTH";
+      type: AUTH_ACTION_TYPE.AUTH;
       payload: {
         token: string;
         user: {
@@ -35,7 +41,7 @@ export type Action =
         };
       };
     }
-  | { type: "LOGOUT" };
+  | { type: AUTH_ACTION_TYPE.LOGOUT };
 
 export const authInitialState = {
   isLogged: false,
@@ -45,7 +51,7 @@ export const authInitialState = {
 
 export function authReducer(state: any, action: Action) {
   switch (action.type) {
-    case "LOGIN":
+    case AUTH_ACTION_TYPE.LOGIN:
       return {
         ...state,
         isLogged: true,
@@ -53,14 +59,14 @@ export function authReducer(state: any, action: Action) {
         user: action.payload.user,
       };
 
-    case "AUTH":
+    case AUTH_ACTION_TYPE.AUTH:
       return {
         ...state,
         isLogged: false,
         token: action.payload.token,
         user: action.payload.user,
       };
-    case "LOGOUT":
+    case AUTH_ACTION_TYPE.LOGOUT:
       return {
         ...state,
         isLogged: false,

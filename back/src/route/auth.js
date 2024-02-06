@@ -40,8 +40,6 @@ router.post('/signup', function (req, res) {
 
     const { code } = Confirm.create(newUser.email)
 
-    console.log(session, code)
-
     return res.status(200).json({
       message: 'The user is successfully registered',
       session,
@@ -179,11 +177,12 @@ router.post('/recovery', function (req, res) {
       message: 'Recovery password',
     })
 
-    Confirm.create(email)
+    const { code } = Confirm.create(email)
 
     return res.status(200).json({
       message:
         'Password recovery code has been sent to your e-mail',
+      code,
     })
   } catch (error) {
     return res.status(400).json({

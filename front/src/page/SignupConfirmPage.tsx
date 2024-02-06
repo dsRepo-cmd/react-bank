@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import StatusBar from "../component/status-bar/StatusBar";
 import { AuthContext } from "../App";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
+import { AUTH_ACTION_TYPE } from "../util/authReduser";
 
 const { CODE } = FIELD_NAME;
 
@@ -87,7 +88,7 @@ const SignupConfirmPage: React.FC = () => {
       if (res.ok) {
         if (auth) {
           auth.dispatch({
-            type: "LOGIN",
+            type: AUTH_ACTION_TYPE.LOGIN,
             payload: {
               token: data.session.token,
               user: data.session.user,

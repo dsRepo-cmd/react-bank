@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import StatusBar from "../component/status-bar/StatusBar";
 import { AuthContext } from "../App";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
+import { AUTH_ACTION_TYPE } from "../util/authReduser";
 
 const { CODE, PASSWORD, NEW_PASSWORD } = FIELD_NAME;
 
@@ -28,7 +29,7 @@ const RecoveryConfirmPage: React.FC = () => {
   const auth = React.useContext(AuthContext);
 
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const emailCode = window.localStorage.getItem("code");
   const navigate = useNavigate();
 
   // check Error ===============================================
@@ -95,7 +96,7 @@ const RecoveryConfirmPage: React.FC = () => {
       if (res.ok) {
         if (auth) {
           auth.dispatch({
-            type: "LOGIN",
+            type: AUTH_ACTION_TYPE.LOGIN,
             payload: {
               token: data.session.token,
               user: data.session.user,
@@ -152,7 +153,7 @@ const RecoveryConfirmPage: React.FC = () => {
         />
 
         <Button onClick={hundleSubmit}>Restore password</Button>
-
+        {emailCode && <div>{emailCode}</div>}
         <Alert text={state.alert} />
       </Grid>
     </Page>

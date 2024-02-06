@@ -13,6 +13,7 @@ import {
 } from "../../util/consts";
 import { AuthContext } from "../../App";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../../util/reduser";
+import { AUTH_ACTION_TYPE } from "../../util/authReduser";
 
 const { NEW_PASSWORD, EMAIL, PASSWORD } = FIELD_NAME;
 
@@ -88,7 +89,7 @@ const ChangePassForm: React.FC = () => {
 
       if (res.ok) {
         auth?.dispatch({
-          type: "LOGIN",
+          type: AUTH_ACTION_TYPE.LOGIN,
           payload: {
             token: data.session.token,
             user: data.session.user,
