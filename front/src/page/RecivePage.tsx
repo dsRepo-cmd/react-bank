@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useCallback } from "react";
 import Page from "../component/page/Page";
 import BackLink from "../component/back-link-menu/BackLinkMenu";
 import Grid from "../component/grid/Grid";
@@ -77,7 +77,15 @@ const RecivePage: React.FC = () => {
     });
   };
 
-  const fetchData = async function () {
+  const convertData = useCallback(() => {
+    return JSON.stringify({
+      [SUM]: Number(state.formValues[SUM]),
+      [EMAIL]: auth?.state.user?.email,
+      [PAY_SYSTEM]: state.formValues[PAY_SYSTEM],
+    });
+  }, [state.formValues, auth]);
+
+  const fetchData = useCallback(async () => {
     try {
       const res = await fetch(`http://${SERVER_IP}/recive`, {
         method: "POST",
@@ -116,22 +124,14 @@ const RecivePage: React.FC = () => {
         payload: error.toString(),
       });
     }
-  };
-
-  const convertData = function () {
-    return JSON.stringify({
-      [SUM]: Number(state.formValues[SUM]),
-      [EMAIL]: auth?.state.user?.email,
-      [PAY_SYSTEM]: state.formValues[PAY_SYSTEM],
-    });
-  };
+  }, [dispatch, convertData]);
 
   useEffect(() => {
     if (isDataSent) {
       fetchData();
       setIsDataSent(false);
     }
-  }, []);
+  }, [isDataSent, fetchData]);
 
   return (
     <Page backgroundColor={BACKGROUND_COLOR.LIGHT_WHITE}>
