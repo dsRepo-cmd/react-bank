@@ -103,6 +103,6 @@ export interface Notifications {
   date: string;
 }
 
-export let apiUrl = null;
+export const apiUrl = "https://react-bank-flax.vercel.app";
 
 export const SERVER_IP = apiUrl || "http://localhost:4000";
