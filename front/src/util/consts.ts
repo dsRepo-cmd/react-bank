@@ -103,6 +103,6 @@ export interface Notifications {
   date: string;
 }
 
-export const apiUrl = null;
+export let apiUrl = null;
 
 export const SERVER_IP = apiUrl || "http://localhost:4000";
