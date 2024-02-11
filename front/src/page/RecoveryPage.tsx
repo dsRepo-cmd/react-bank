@@ -16,8 +16,8 @@ import {
 } from "../util/consts";
 import Grid from "../component/grid/Grid";
 import { useNavigate } from "react-router-dom";
-import StatusBar from "../component/status-bar/StatusBar";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
+import Loader from "../component/loader/Loader";
 
 const { EMAIL } = FIELD_NAME;
 
@@ -73,6 +73,7 @@ const RecoveryPage: React.FC = () => {
   // Send Data=============================================
 
   const sendData = async () => {
+    dispatch({ type: REQUEST_ACTION_TYPE.LOADING });
     try {
       const res = await fetch(`${SERVER_IP}/recovery`, {
         method: "POST",
@@ -86,7 +87,7 @@ const RecoveryPage: React.FC = () => {
 
       if (res.ok) {
         if (data.code) window.localStorage.setItem("code", data.code);
-
+        dispatch({ type: REQUEST_ACTION_TYPE.SUCCESS });
         navigate("/recovery-confirm");
       }
 
@@ -113,7 +114,7 @@ const RecoveryPage: React.FC = () => {
   return (
     <Page>
       <Grid>
-        <StatusBar />
+        {state.status === REQUEST_ACTION_TYPE.LOADING && <Loader />}
         <BackLink />
 
         <Header title="Recover password" text="Choose a recovery method" />

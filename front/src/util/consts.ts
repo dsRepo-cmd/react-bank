@@ -1,23 +1,25 @@
-type FormFieldName =
-  | "EMAIL"
-  | "USER_ID"
-  | "NEW_EMAIL"
-  | "PASSWORD"
-  | "NEW_PASSWORD"
-  | "CODE"
-  | "SUM"
-  | "PAY_SYSTEM"
-  | "PAY_TO";
+export interface FormFieldName {
+  EMAIL: string;
+  USER_ID: string;
+  NEW_EMAIL: string;
+  PASSWORD: string;
+  NEW_PASSWORD: string;
+  CODE: string;
+  SUM: string;
+  PAY_SYSTEM: string;
+  PAY_TO: string;
+}
 
-type FormFieldError =
-  | "IS_EMPTY"
-  | "IS_BIG"
-  | "EMAIL"
-  | "PASSWORD"
-  | "PPASSWORD_AGAIN"
-  | "MONEY";
+export interface FormFieldError {
+  IS_EMPTY: string;
+  IS_BIG: string;
+  EMAIL: string;
+  PASSWORD: string;
+  PPASSWORD_AGAIN: string;
+  MONEY: string;
+}
 
-export const FIELD_NAME: Record<FormFieldName, string> = {
+export const FIELD_NAME: FormFieldName = {
   EMAIL: "email",
   USER_ID: "userId",
   NEW_EMAIL: "newEmail",
@@ -29,7 +31,7 @@ export const FIELD_NAME: Record<FormFieldName, string> = {
   PAY_TO: "payTo",
 };
 
-export const FIELD_ERR: Record<FormFieldError, string> = {
+export const FIELD_ERR: FormFieldError = {
   IS_EMPTY: "Enter the value in the field",
   IS_BIG: "Very long value, remove excess",
   EMAIL: "Enter the correct value of the e-mail address",
@@ -104,5 +106,6 @@ export interface Notifications {
 }
 
 export const apiUrl = "https://react-bank-flax.vercel.app";
+// export const apiUrl = "http://192.168.1.151:4000";
 
 export const SERVER_IP = apiUrl || "http://localhost:4000";

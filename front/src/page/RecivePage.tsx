@@ -2,7 +2,6 @@ import React, { useEffect, useState, useReducer, useCallback } from "react";
 import Page from "../component/page/Page";
 import BackLink from "../component/back-link-menu/BackLinkMenu";
 import Grid from "../component/grid/Grid";
-import StatusBar from "../component/status-bar/StatusBar";
 import Input from "../component/input/Input";
 import PaymentSystemList from "../container/payment-system-list/PaymentSystemList";
 import {
@@ -19,6 +18,7 @@ import Alert from "../component/alert/Alert";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
 import FieldTitle from "../component/field-title/FieldTitle";
 import Divider from "../component/divider/Divider";
+import Loader from "../component/loader/Loader";
 
 const { SUM, EMAIL, PAY_SYSTEM } = FIELD_NAME;
 
@@ -86,6 +86,7 @@ const RecivePage: React.FC = () => {
   }, [state.formValues, auth]);
 
   const fetchData = useCallback(async () => {
+    dispatch({ type: REQUEST_ACTION_TYPE.LOADING });
     try {
       const res = await fetch(`${SERVER_IP}/recive`, {
         method: "POST",
@@ -135,8 +136,8 @@ const RecivePage: React.FC = () => {
 
   return (
     <Page backgroundColor={BACKGROUND_COLOR.LIGHT_WHITE}>
+      {state.status === REQUEST_ACTION_TYPE.LOADING && <Loader />}
       <Grid>
-        <StatusBar />
         <BackLink title="Receive" />
         <FieldTitle text="Receive amount" />
         <Input
@@ -149,7 +150,7 @@ const RecivePage: React.FC = () => {
         <FieldTitle text="Payment system" />
 
         <PaymentSystemList onChange={hundleSubmit} />
-        <Alert success={state.data} text={state.alert} />
+        <Alert success={!!state.data} text={state.alert} />
       </Grid>
     </Page>
   );

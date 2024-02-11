@@ -7,7 +7,6 @@ import { Button } from "../component/button/Button";
 import Prefix from "../component/prefix/Prefix";
 import Alert from "../component/alert/Alert";
 import Grid from "../component/grid/Grid";
-import StatusBar from "../component/status-bar/StatusBar";
 import { AuthContext } from "../App";
 import {
   BACKGROUND_COLOR,
@@ -21,6 +20,7 @@ import {
   SERVER_IP,
 } from "../util/consts";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
+import Loader from "../component/loader/Loader";
 
 const { PAY_TO, SUM, EMAIL } = FIELD_NAME;
 // ===========================================================
@@ -81,6 +81,7 @@ const SendPage: React.FC = () => {
   // Send Amount==============================================
 
   const sendAmount = async () => {
+    dispatch({ type: REQUEST_ACTION_TYPE.LOADING });
     try {
       const res = await fetch(`${SERVER_IP}/send`, {
         method: "POST",
@@ -132,7 +133,8 @@ const SendPage: React.FC = () => {
   return (
     <Page backgroundColor={BACKGROUND_COLOR.LIGHT_WHITE}>
       <Grid>
-        <StatusBar />
+        {state.status === REQUEST_ACTION_TYPE.LOADING && <Loader />}
+
         <BackLink title="Send" />
 
         <Input
@@ -159,7 +161,7 @@ const SendPage: React.FC = () => {
 
         <Button onClick={hundleSubmit}>Send</Button>
 
-        <Alert success={state.data} text={state.alert} />
+        <Alert success={!!state.data} text={state.alert} />
       </Grid>
     </Page>
   );

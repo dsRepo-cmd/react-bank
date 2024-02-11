@@ -15,10 +15,10 @@ import {
   SERVER_IP,
 } from "../util/consts";
 import { useNavigate } from "react-router-dom";
-import StatusBar from "../component/status-bar/StatusBar";
 import { AuthContext } from "../App";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
 import { AUTH_ACTION_TYPE } from "../util/authReduser";
+import Loader from "../component/loader/Loader";
 
 const { CODE } = FIELD_NAME;
 
@@ -74,6 +74,7 @@ const SignupConfirmPage: React.FC = () => {
 
   // Send Data=============================================
   const sendCode = async () => {
+    dispatch({ type: REQUEST_ACTION_TYPE.LOADING });
     try {
       const res = await fetch(`${SERVER_IP}/signup-confirm`, {
         method: "POST",
@@ -95,7 +96,7 @@ const SignupConfirmPage: React.FC = () => {
             },
           });
         }
-
+        dispatch({ type: REQUEST_ACTION_TYPE.SUCCESS });
         navigate("/balance");
       }
 
@@ -123,7 +124,7 @@ const SignupConfirmPage: React.FC = () => {
   return (
     <Page>
       <Grid>
-        <StatusBar />
+        {state.status === REQUEST_ACTION_TYPE.LOADING && <Loader />}
         <BackLink />
 
         <Header title="Confirm account" text="Write the code you received" />

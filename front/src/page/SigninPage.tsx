@@ -18,10 +18,10 @@ import {
 } from "../util/consts";
 import Grid from "../component/grid/Grid";
 import { useNavigate } from "react-router-dom";
-import StatusBar from "../component/status-bar/StatusBar";
 import { AuthContext } from "../App";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
 import { AUTH_ACTION_TYPE } from "../util/authReduser";
+import Loader from "../component/loader/Loader";
 
 const { EMAIL, PASSWORD } = FIELD_NAME;
 
@@ -86,6 +86,7 @@ const SigninPage: React.FC = () => {
   // Send Data=============================================
 
   const signin = async () => {
+    dispatch({ type: REQUEST_ACTION_TYPE.LOADING });
     try {
       const res = await fetch(
         `${SERVER_IP}/signin`,
@@ -111,9 +112,9 @@ const SigninPage: React.FC = () => {
             },
           });
         }
+        dispatch({ type: REQUEST_ACTION_TYPE.SUCCESS });
         navigate("/balance");
       }
-
       dispatch({
         type: REQUEST_ACTION_TYPE.SET_ALERT,
         payload: data.message,
@@ -138,7 +139,7 @@ const SigninPage: React.FC = () => {
   return (
     <Page>
       <Grid>
-        <StatusBar />
+        {state.status === REQUEST_ACTION_TYPE.LOADING && <Loader />}
         <BackLink />
 
         <Header title="Sign in" text="Select login method" />

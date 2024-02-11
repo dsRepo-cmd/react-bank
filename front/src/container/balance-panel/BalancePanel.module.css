@@ -6,7 +6,7 @@
 
   align-items: stretch;
 
-  background-image: url('./svg/background.png');
+  background-image: url("./svg/background.png");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -27,7 +27,7 @@
 }
 
 .settings {
-  background-image: url('./svg/settings.svg');
+  background-image: url("./svg/settings.svg");
   background-repeat: no-repeat;
   width: 24px;
   height: 24px;
@@ -35,7 +35,7 @@
 }
 
 .notifications {
-  background-image: url('./svg/bell.svg');
+  background-image: url("./svg/bell.svg");
   background-repeat: no-repeat;
   width: 24px;
   height: 24px;
@@ -45,6 +45,10 @@
 .balance {
   color: #f3f5ff;
   font-size: 30px;
+  align-self: center;
+}
+
+.balance_skeleton {
   align-self: center;
 }
 
@@ -61,7 +65,7 @@
 
 .recive {
   position: relative;
-  background-image: url('./svg/arrow-down-left.svg');
+  background-image: url("./svg/arrow-down-left.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-color: #5b94e9;
@@ -82,7 +86,7 @@
 }
 
 .send {
-  background-image: url('./svg/send.svg');
+  background-image: url("./svg/send.svg");
   background-repeat: no-repeat;
   background-position: center;
 

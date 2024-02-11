@@ -18,10 +18,10 @@ import {
   SERVER_IP,
 } from "../util/consts";
 import Grid from "../component/grid/Grid";
-import StatusBar from "../component/status-bar/StatusBar";
 import { AuthContext } from "../App";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
 import { AUTH_ACTION_TYPE } from "../util/authReduser";
+import Loader from "../component/loader/Loader";
 
 const { EMAIL, PASSWORD } = FIELD_NAME;
 
@@ -86,6 +86,7 @@ const SignupPage: React.FC = () => {
   // Send Data=============================================
 
   const signup = async () => {
+    dispatch({ type: REQUEST_ACTION_TYPE.LOADING });
     try {
       const res = await fetch(`${SERVER_IP}/signup`, {
         method: "POST",
@@ -99,8 +100,7 @@ const SignupPage: React.FC = () => {
 
       if (res.ok) {
         if (data.code) window.localStorage.setItem("code", data.code);
-
-        console.log(data);
+        dispatch({ type: REQUEST_ACTION_TYPE.SUCCESS });
 
         if (auth) {
           auth.dispatch({
@@ -139,7 +139,7 @@ const SignupPage: React.FC = () => {
   return (
     <Page>
       <Grid>
-        <StatusBar />
+        {state.status === REQUEST_ACTION_TYPE.LOADING && <Loader />}
         <BackLink />
         <Header title="Sign up" text="Choose a registration method" />
         <Input

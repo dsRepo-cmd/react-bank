@@ -14,6 +14,7 @@ import {
 import { AuthContext } from "../../App";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../../util/reduser";
 import { AUTH_ACTION_TYPE } from "../../util/authReduser";
+import Loader from "../../component/loader/Loader";
 
 const { NEW_PASSWORD, EMAIL, PASSWORD } = FIELD_NAME;
 
@@ -72,6 +73,7 @@ const ChangePassForm: React.FC = () => {
   // Send Data=============================================
 
   const changePassword = async () => {
+    dispatch({ type: REQUEST_ACTION_TYPE.LOADING });
     try {
       const res = await fetch(
         `${SERVER_IP}/settings-password`,
@@ -136,6 +138,7 @@ const ChangePassForm: React.FC = () => {
 
   return (
     <>
+      {state.status === REQUEST_ACTION_TYPE.LOADING && <Loader />}
       <Input
         error={state.formErrors[PASSWORD]}
         name={PASSWORD}
@@ -155,7 +158,7 @@ const ChangePassForm: React.FC = () => {
       <Button outline onClick={hundleSubmit} small>
         Save Password
       </Button>
-      <Alert success={state?.data} text={state.alert} />
+      <Alert success={!!state?.data} text={state.alert} />
     </>
   );
 };

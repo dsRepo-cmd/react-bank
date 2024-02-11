@@ -15,6 +15,7 @@ import {
 import { AuthContext } from "../../App";
 import { REQUEST_ACTION_TYPE, initialState, reducer } from "../../util/reduser";
 import { AUTH_ACTION_TYPE } from "../../util/authReduser";
+import Loader from "../../component/loader/Loader";
 
 const { NEW_EMAIL, PASSWORD, EMAIL } = FIELD_NAME;
 // =======================================================================
@@ -76,6 +77,7 @@ const ChangeEmailForm: React.FC = () => {
   // Send Data=============================================
 
   const changeEmail = async () => {
+    dispatch({ type: REQUEST_ACTION_TYPE.LOADING });
     try {
       const res = await fetch(`${SERVER_IP}/settings-email`, {
         method: "POST",
@@ -136,6 +138,7 @@ const ChangeEmailForm: React.FC = () => {
 
   return (
     <>
+      {state.status === REQUEST_ACTION_TYPE.LOADING && <Loader />}
       <Input
         error={state.formErrors[NEW_EMAIL]}
         name={NEW_EMAIL}
@@ -154,7 +157,7 @@ const ChangeEmailForm: React.FC = () => {
       <Button outline onClick={hundleSubmit} small>
         Save Email
       </Button>
-      <Alert success={state.data} text={state.alert} />
+      <Alert success={!!state.data} text={state.alert} />
     </>
   );
 };

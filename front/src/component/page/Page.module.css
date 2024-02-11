@@ -1,4 +1,4 @@
-.page {
+/* .page {
   position: relative;
   overflow: hidden;
   width: 395px;
@@ -9,16 +9,17 @@
   border: 1px solid gray;
 
   background-color: #fff;
-}
+} */
 
 /* mobile test app */
 
-/* .page {
+.page {
   position: relative;
   overflow: hidden;
-  width: 395px;
+  width: 100%;
+  max-width: 480px;
   min-height: 100vh;
   margin: auto;
   background-color: #fff;
   border: 1px solid gray;
-} */
+}

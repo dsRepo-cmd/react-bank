@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import Page from "../component/page/Page";
 import Grid from "../component/grid/Grid";
-import StatusBar from "../component/status-bar/StatusBar";
 import BackLinkMenu from "../component/back-link-menu/BackLinkMenu";
 
 import { ResData, SERVER_IP, Transaction } from "../util/consts";
 import TransactionContent from "../container/transaction-content/TransactionContent";
+import { REQUEST_ACTION_TYPE, initialState, reducer } from "../util/reduser";
+import Loader from "../component/loader/Loader";
+import Skeleton from "../component/skeleton/Skeleton";
 
 // ==========================================================
 
@@ -16,11 +18,14 @@ const TransactionPage: React.FC = () => {
   }>();
 
   const [transaction, setTransaction] = useState<Transaction | null>(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   // Send Data=============================================
 
   useEffect(() => {
     const fetchTransaction = async () => {
+      dispatch({ type: REQUEST_ACTION_TYPE.LOADING });
+
       try {
         const res = await fetch(`${SERVER_IP}/transaction/${transactionId}`);
 
@@ -28,6 +33,7 @@ const TransactionPage: React.FC = () => {
         console.log(data);
         if (res.ok) {
           setTransaction(data.session.transaction);
+          dispatch({ type: REQUEST_ACTION_TYPE.SUCCESS });
         }
       } catch (error: any) {}
     };
@@ -35,7 +41,16 @@ const TransactionPage: React.FC = () => {
   }, [transactionId]);
 
   if (transaction === null) {
-    return <div>Loading...</div>;
+    return (
+      <Page backgroundColor="#F5F5F7">
+        <Grid>
+          <BackLinkMenu title="Transaction" />
+          <Skeleton height={40} width={160} marginBottom="32px" />
+          <Skeleton border="12px" height={140} width={"100%"} />
+          <Loader />;
+        </Grid>
+      </Page>
+    );
   }
 
   // ====================================================
@@ -43,7 +58,8 @@ const TransactionPage: React.FC = () => {
   return (
     <Page backgroundColor="#F5F5F7">
       <Grid>
-        <StatusBar />
+        {state.status === REQUEST_ACTION_TYPE.LOADING && <Loader />}
+
         <BackLinkMenu title="Transaction" />
         <TransactionContent transaction={transaction} />
       </Grid>

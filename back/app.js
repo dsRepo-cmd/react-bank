@@ -55,6 +55,14 @@ app.use((req, res, next) => {
   next()
 })
 
+// app.use(async (req, res, next) => {
+//   await new Promise((res) => {
+//     setTimeout(res, 500)
+//   })
+//   console.log('loading..')
+//   next()
+// })
+
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

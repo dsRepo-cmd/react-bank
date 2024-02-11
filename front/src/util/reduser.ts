@@ -1,7 +1,7 @@
-import { FIELD_ERR, FIELD_NAME } from "./consts";
+import { FIELD_ERR, FIELD_NAME, ResData } from "./consts";
 
 export enum REQUEST_ACTION_TYPE {
-  PROGRESS = "progress",
+  LOADING = "loading",
   SUCCESS = "success",
   RESET = "reset",
   SET_FORM_ERRORS = "formErrors",
@@ -9,22 +9,30 @@ export enum REQUEST_ACTION_TYPE {
   SET_ALERT = "alert",
 }
 
+interface FormValues {
+  [key: string]: string;
+}
+
+interface FormErrors {
+  [key: string]: string;
+}
+
 export interface RequestState {
-  status: REQUEST_ACTION_TYPE | null;
+  status: REQUEST_ACTION_TYPE;
   message: string | null;
-  data: any | null;
-  formValues: any | null;
-  formErrors: any | null;
+  data: ResData | null;
+  formValues: FormValues;
+  formErrors: FormErrors;
   alert?: string;
 }
 
 export interface RequestAction {
   type: REQUEST_ACTION_TYPE;
-  payload?: any;
+  payload?: ResData | FormValues | FormErrors | string | null | boolean;
 }
 
 export const initialState: RequestState = {
-  status: null,
+  status: REQUEST_ACTION_TYPE.SUCCESS,
   message: null,
   data: null,
   formValues: {
@@ -45,7 +53,6 @@ export const initialState: RequestState = {
     [FIELD_ERR.MONEY]: "",
     [FIELD_ERR.PPASSWORD_AGAIN]: "",
   },
-
   alert: "",
 };
 
@@ -58,32 +65,38 @@ export const reducer = (
       return {
         ...state,
         status: action.type,
-        data: action.payload,
+        data: action.payload as ResData,
       };
     case REQUEST_ACTION_TYPE.SET_FORM_VALUES:
       return {
         ...state,
         status: action.type,
-        formValues: action.payload,
+        formValues: action.payload as FormValues,
       };
 
     case REQUEST_ACTION_TYPE.SET_FORM_ERRORS:
       return {
         ...state,
         status: action.type,
-        formErrors: action.payload,
+        formErrors: action.payload as FormErrors,
       };
 
     case REQUEST_ACTION_TYPE.SET_ALERT:
       return {
         ...state,
         status: action.type,
-        alert: action.payload,
+        alert: action.payload as string,
       };
 
     case REQUEST_ACTION_TYPE.RESET:
       return {
         ...initialState,
+      };
+
+    case REQUEST_ACTION_TYPE.LOADING:
+      return {
+        ...state,
+        status: action.type,
       };
     default:
       return { ...state };

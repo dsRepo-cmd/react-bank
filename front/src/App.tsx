@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { Suspense, createContext, useEffect, useReducer } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { WellcomePage } from "./page/WellcomePage";
 
@@ -21,6 +21,7 @@ import RecivePage from "./page/RecivePage";
 import SendPage from "./page/SendPage";
 import TransactionPage from "./page/TransactionPage";
 import ErrorPage from "./page/ErrorPage";
+import Loader from "./component/loader/Loader";
 
 export const AuthContext = createContext<ContexType | null>(null);
 // ======================================================
@@ -36,117 +37,119 @@ const App: React.FC = () => {
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            index
-            element={
-              <AuthRoute>
-                <WellcomePage />
-              </AuthRoute>
-            }
-          />
+      <Suspense fallback={<Loader />}>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              index
+              element={
+                <AuthRoute>
+                  <WellcomePage />
+                </AuthRoute>
+              }
+            />
 
-          <Route
-            path="/signup"
-            element={
-              <AuthRoute>
-                <SignupPage />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="/signup-confirm"
-            element={
-              <AuthRoute>
-                <SignupConfirmPage />
-              </AuthRoute>
-            }
-          />
+            <Route
+              path="/signup"
+              element={
+                <AuthRoute>
+                  <SignupPage />
+                </AuthRoute>
+              }
+            />
+            <Route
+              path="/signup-confirm"
+              element={
+                <AuthRoute>
+                  <SignupConfirmPage />
+                </AuthRoute>
+              }
+            />
 
-          <Route
-            path="/signin"
-            element={
-              <AuthRoute>
-                <SigninPage />
-              </AuthRoute>
-            }
-          />
+            <Route
+              path="/signin"
+              element={
+                <AuthRoute>
+                  <SigninPage />
+                </AuthRoute>
+              }
+            />
 
-          <Route
-            path="/recovery"
-            element={
-              <AuthRoute>
-                <RecoveryPage />
-              </AuthRoute>
-            }
-          />
+            <Route
+              path="/recovery"
+              element={
+                <AuthRoute>
+                  <RecoveryPage />
+                </AuthRoute>
+              }
+            />
 
-          <Route
-            path="/recovery-confirm"
-            element={
-              <AuthRoute>
-                <RecoveryConfirmPage />
-              </AuthRoute>
-            }
-          />
+            <Route
+              path="/recovery-confirm"
+              element={
+                <AuthRoute>
+                  <RecoveryConfirmPage />
+                </AuthRoute>
+              }
+            />
 
-          <Route
-            path="/balance"
-            element={
-              <PrivateRoute>
-                <BalancePage />
-              </PrivateRoute>
-            }
-          />
+            <Route
+              path="/balance"
+              element={
+                <PrivateRoute>
+                  <BalancePage />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path="/notifications"
-            element={
-              <PrivateRoute>
-                <NotificationsPage />
-              </PrivateRoute>
-            }
-          />
+            <Route
+              path="/notifications"
+              element={
+                <PrivateRoute>
+                  <NotificationsPage />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path="/settings"
-            element={
-              <PrivateRoute>
-                <SettingsPage />
-              </PrivateRoute>
-            }
-          />
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoute>
+                  <SettingsPage />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path="/recive"
-            element={
-              <PrivateRoute>
-                <RecivePage />
-              </PrivateRoute>
-            }
-          />
+            <Route
+              path="/recive"
+              element={
+                <PrivateRoute>
+                  <RecivePage />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path="/send"
-            element={
-              <PrivateRoute>
-                <SendPage />
-              </PrivateRoute>
-            }
-          />
+            <Route
+              path="/send"
+              element={
+                <PrivateRoute>
+                  <SendPage />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path="/transaction/:transactionId"
-            element={
-              <PrivateRoute>
-                <TransactionPage />
-              </PrivateRoute>
-            }
-          />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </BrowserRouter>
+            <Route
+              path="/transaction/:transactionId"
+              element={
+                <PrivateRoute>
+                  <TransactionPage />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </BrowserRouter>
+      </Suspense>
     </AuthContext.Provider>
   );
 };
